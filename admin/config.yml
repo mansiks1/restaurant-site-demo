@@ -88,6 +88,12 @@ collections:
                 widget: boolean
                 hint: Выключите, если блюдо временно недоступно. Оно останется с пометкой.
                 default: true
+              - label: Выбор шефа
+                name: chef_choice
+                widget: boolean
+                required: false
+                default: false
+                hint: 'Отметьте до трёх блюд. Доступные позиции появятся в отдельном блоке меню и на главной; приоритет задаёт поле «Порядок».'
     description: 'Меню ресторана «Розалия»: все блюда в одном JSON-файле.'
   - name: menu_categories
     label: Категории меню
