@@ -1,5 +1,18 @@
 {
-  "menu/dishes": [],
+  "menu/dishes": [
+    "truffle-pasta",
+    "baked-beetroot",
+    "pikeperch",
+    "burrata",
+    "tartare",
+    "duck",
+    "mushroom-risotto",
+    "chocolate",
+    "pear",
+    "tea",
+    "lemonade",
+    "coffee"
+  ],
   "events": [],
   "blog": []
 }

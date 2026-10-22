@@ -1,0 +1,28 @@
+{
+  "categories": [
+    {
+      "id": "starters",
+      "title": "Закуски и салаты",
+      "description": "Начните с маленького удовольствия.",
+      "order": 1
+    },
+    {
+      "id": "mains",
+      "title": "Горячее",
+      "description": "Сезонные сочетания и тепло открытого огня.",
+      "order": 2
+    },
+    {
+      "id": "desserts",
+      "title": "Десерты",
+      "description": "Финальный штрих вашего вечера.",
+      "order": 3
+    },
+    {
+      "id": "drinks",
+      "title": "Напитки",
+      "description": "В поддержку настроения.",
+      "order": 4
+    }
+  ]
+}
