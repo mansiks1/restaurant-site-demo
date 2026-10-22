@@ -1,31 +1,31 @@
 {
   "menu/dishes": [
-    "truffle-pasta",
     "baked-beetroot",
-    "pikeperch",
     "burrata",
-    "tartare",
-    "duck",
-    "mushroom-risotto",
     "chocolate",
-    "pear",
-    "tea",
+    "coffee",
+    "duck",
     "lemonade",
-    "coffee"
+    "mushroom-risotto",
+    "pear",
+    "pikeperch",
+    "tartare",
+    "tea",
+    "truffle-pasta"
   ],
   "events": [
-    "jazz-friday",
     "autumn-dinner",
-    "sunday-lunch",
-    "tea-evening",
-    "november-jazz",
     "harvest-dinner",
-    "october-music"
+    "jazz-friday",
+    "november-jazz",
+    "october-music",
+    "sunday-lunch",
+    "tea-evening"
   ],
   "blog": [
-    "taste-of-autumn",
-    "slow-dinner",
     "kitchen-notes",
+    "slow-dinner",
+    "taste-of-autumn",
     "tea-ritual"
   ]
 }

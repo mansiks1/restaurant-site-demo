@@ -33,7 +33,7 @@ ul { padding-left: var(--s-6); }
 .notice, .empty-state { border: var(--border); padding: var(--s-7); color: var(--color-muted); }
 .error-state { color: var(--color-danger); }
 .prose { max-width: 740px; font-size: var(--text-base); }
-.prose h2 { font-size: clamp(2rem, 4vw, 3rem); margin-block: var(--s-9) var(--s-5); }
+.prose h2 { font-size: var(--text-prose-heading); margin-block: var(--s-9) var(--s-5); }
 .prose h3 { margin-block: var(--s-7) var(--s-4); }
 .prose a { text-decoration: underline; color: var(--color-accent); }
 .prose ul, .prose ol { margin-block: var(--s-5); }

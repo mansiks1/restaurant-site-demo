@@ -1,4 +1,4 @@
-import { entries, esc, url, dateLabel, money, picture, markdown, showError, setMeta } from './content.js';
+import { entries, esc, url, dateLabel, moscowDay, money, picture, markdown, showError, setMeta } from './content.js';
 import { createCalendar } from './calendar.js';
 const detail=document.querySelector('[data-event-detail]');
 try{
@@ -13,7 +13,7 @@ try{
     }
   }else{
     let period='upcoming',selected='';const list=document.querySelector('[data-events-list]');const clear=document.querySelector('[data-clear-date]');
-    function render(){const now=new Date();const items=selected?events.filter(e=>e.date.slice(0,10)===selected):events.filter(e=>period==='upcoming'?new Date(e.date)>=now:new Date(e.date)<now);if(period==='past'&&!selected)items.reverse();
+    function render(){const now=new Date();const items=selected?events.filter(e=>moscowDay(e.date)===selected):events.filter(e=>period==='upcoming'?new Date(e.date)>=now:new Date(e.date)<now);if(period==='past'&&!selected)items.reverse();
       list.innerHTML=items.length?items.map(e=>`<article class="card">${picture(e.image,e.image_alt)}<div class="card-content"><div class="card-meta"><time datetime="${esc(e.date)}">${dateLabel(e.date,{year:undefined})}</time><span aria-hidden="true">·</span><span>${esc(e.kind)}</span></div><h3><a class="card-title-link" href="${url('events/event.html?slug='+encodeURIComponent(e.slug))}">${esc(e.title)}</a></h3><p>${esc(e.description)}</p></div></article>`).join(''):'<p class="empty-state">На этот период встреч пока нет. Загляните позже или выберите другой день в календаре.</p>';
       document.querySelector('[data-events-count]').textContent=selected?`${dateLabel(selected+'T12:00:00+03:00')} · событий: ${items.length}`:`${period==='upcoming'?'Ближайших':'Прошедших'} событий: ${items.length}`;clear.hidden=!selected;
       document.querySelectorAll('[data-period]').forEach(b=>b.setAttribute('aria-pressed',String(!selected&&b.dataset.period===period)));

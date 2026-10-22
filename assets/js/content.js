@@ -1,4 +1,4 @@
-import { load } from './vendor/js-yaml.mjs';
+import { load, JSON_SCHEMA } from './vendor/js-yaml.mjs';
 import { marked } from './vendor/marked.esm.js';
 import DOMPurify from './vendor/purify.es.mjs';
 
@@ -52,15 +52,24 @@ export async function entry(path) {
   const response=await fetch(url(path)); if(!response.ok) throw Error(`Не удалось загрузить ${path}`);
   const source=await response.text(); const match=source.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)([\s\S]*)$/);
   if(!match) throw Error('Неверный формат Markdown');
-  return {...load(match[1]), body:match[2], slug:path.split('/').pop().replace(/\.md$/, '')};
+  return {...load(match[1],{schema:JSON_SCHEMA}), body:match[2], slug:path.split('/').pop().replace(/\.md$/, '')};
 }
 export async function entries(group) {
   if(cache.has(group))return cache.get(group);
   const task=(async()=>{
     const manifest=await contentIndex();
     const names=manifest[group] || [];
-    return Promise.all(names.map(name=>entry(`content/${group}/${name}.md`)));
+    const results=await Promise.allSettled(names.map(name=>entry(`content/${group}/${name}.md`)));
+    const loaded=results.filter(result=>result.status==='fulfilled').map(result=>result.value);
+    if(names.length&&!loaded.length)throw Error(`Не удалось загрузить раздел ${group}`);
+    return loaded;
   })(); cache.set(group, task); return task;
 }
 export function showError(element, message='Не удалось загрузить содержимое. Обновите страницу или свяжитесь с рестораном через раздел «Контакты».') { element.innerHTML=`<p class="notice error-state" role="alert">${esc(message)}</p>`; }
-export function setMeta(title, description) { document.title=`${title} — РУНИКА`; document.querySelector('meta[name="description"]').content=description; }
+export function setMeta(title, description) {
+  document.title=`${title} — РУНИКА`; document.querySelector('meta[name="description"]').content=description;
+  const ogTitle=document.querySelector('meta[property="og:title"]');if(ogTitle)ogTitle.content=document.title;
+  const ogDescription=document.querySelector('meta[property="og:description"]');if(ogDescription)ogDescription.content=description;
+  const canonical=document.querySelector('link[rel="canonical"]');
+  if(canonical){const path=location.pathname.replace(ROOT.pathname,'');canonical.href='https://mansiks1.github.io/restaurant-site-demo/'+path+location.search;}
+}

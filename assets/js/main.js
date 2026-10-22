@@ -29,9 +29,9 @@ if(active==='home'){
   entry('content/pages/home.md').then(page=>{document.querySelector('[data-home-description]').textContent=page.description;document.querySelector('[data-home-title]').innerHTML=esc(page.title)+'<br><em>'+esc(page.title_accent)+'</em>';document.querySelector('[data-home-story-title]').textContent=page.story_title;document.querySelector('[data-home-story]').innerHTML=page.story_body.split('\n\n').map(p=>'<p>'+esc(p)+'</p>').join('');}).catch(()=>{});
   entries('menu/dishes').then(items=>{
     document.querySelector('[data-home-dishes]').innerHTML=items.filter(d=>d.available).sort((a,b)=>a.order-b.order).slice(0,3).map(d=>`<article class="card">${picture(d.image,d.image_alt)}<div class="card-content"><div class="home-dish-footer"><h3><a href="${url('menu/#'+encodeURIComponent(d.category))}">${esc(d.title)}</a></h3><span class="price">${money(d.price)}</span></div><p>${esc(d.description)}</p></div></article>`).join('');
-  }).catch(()=>{});
+  }).catch(()=>{document.querySelector('[data-home-dishes]').innerHTML='<p class="notice">Меню временно недоступно. Откройте раздел «Меню» или попробуйте позже.</p>';});
   entries('events').then(items=>{
     const upcoming=items.filter(e=>new Date(e.date)>=new Date()).sort((a,b)=>new Date(a.date)-new Date(b.date)).slice(0,3);
     document.querySelector('[data-home-events]').innerHTML=upcoming.length?upcoming.map(e=>`<a class="event-row" href="${url('events/event.html?slug='+encodeURIComponent(e.slug))}"><time class="event-date" datetime="${esc(e.date)}"><b>${dateLabel(e.date,{day:'2-digit',month:undefined,year:undefined})}</b>${dateLabel(e.date,{day:undefined,month:'short',year:undefined})}</time><div><p>${esc(e.kind)}</p><h3>${esc(e.title)}</h3><p>${dateLabel(e.date,{day:undefined,month:undefined,year:undefined,hour:'2-digit',minute:'2-digit'})} · ${e.price?money(e.price):'Вход свободный'}</p></div><span class="event-row-arrow" aria-hidden="true">↗</span></a>`).join(''):`<p class="notice">Новая афиша скоро появится. А пока выберите вечер для ужина.</p>`;
-  }).catch(()=>{});
+  }).catch(()=>{document.querySelector('[data-home-events]').innerHTML='<p class="notice">Афиша временно недоступна. Попробуйте открыть раздел «События» позже.</p>';});
 }

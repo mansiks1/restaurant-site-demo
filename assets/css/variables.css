@@ -9,6 +9,16 @@
   --text-xs: .6875rem; --text-sm: .8125rem; --text-base: .9375rem;
   --text-lg: 1.125rem; --text-xl: 1.375rem; --text-2xl: 1.75rem;
   --text-title: clamp(3.25rem, 6.6vw, 6rem); --text-heading: clamp(2.5rem, 4.4vw, 4.2rem);
+  --text-tiny: .6rem; --text-brand-caption: .5rem; --text-brand-caption-mobile: .43rem;
+  --text-calendar-dot: 5px; --text-input-mobile: 16px;
+  --text-brand: 1.9rem; --text-brand-mobile: 1.65rem; --text-dish: 1.7rem;
+  --text-stat: 2.9rem; --text-price: 2.1rem; --text-contact: 2rem; --text-contact-mobile: 1.85rem;
+  --text-map: 3rem; --text-reserve-mobile: 2.8rem; --text-category-mobile: 2.3rem;
+  --text-hero: clamp(3.4rem, 6.2vw, 5.8rem); --text-hero-tablet: clamp(3.4rem, 6.5vw, 4.7rem);
+  --text-hero-mobile: clamp(3.4rem, 12.7vw, 5.9rem); --text-page-mobile: clamp(3.1rem, 11.5vw, 4.9rem);
+  --text-heading-mobile: clamp(2.55rem, 9vw, 3.8rem); --text-category: clamp(2.2rem, 4vw, 3.2rem);
+  --text-prose-heading: clamp(2rem, 4vw, 3rem); --text-category-nav: .65rem;
+  --hero-height: 580px; --calendar-cell: 40px; --dish-thumb: 126px;
   --s-1: .25rem; --s-2: .5rem; --s-3: .75rem; --s-4: 1rem; --s-5: 1.25rem;
   --s-6: 1.5rem; --s-7: 2rem; --s-8: 2.5rem; --s-9: 3rem; --s-10: 4rem;
   --s-11: 5rem; --s-12: 6rem; --s-13: 8rem;
