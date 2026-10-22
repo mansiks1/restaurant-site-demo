@@ -42,7 +42,7 @@ const html=['index.html','menu/index.html','events/index.html','events/event.htm
 const titles=new Set();let links=0;
 for(const file of html){
   const source=await read(file);const admin=file.startsWith('admin/');
-  if(!admin)check((source.match(/<h1\b/g)||[]).length===1,`${file}: exactly one h1`);
+  check((source.match(/<h1\b/g)||[]).length===1,`${file}: exactly one h1`);
   const title=source.match(/<title>(.*?)<\/title>/)?.[1];check(title&&!titles.has(title),`${file}: unique title`);titles.add(title);
   check(/<html lang="ru">/.test(source)&&/<meta name="description" content="[^"]+">/.test(source),`${file}: language/description`);
   for(const image of source.matchAll(/<img\b[^>]*>/g)){const tag=image[0];check(/alt="[^"]+"/.test(tag)&&/width="\d+"/.test(tag)&&/height="\d+"/.test(tag)&&/loading="lazy"/.test(tag),`${file}: image accessibility/dimensions/lazy`);}

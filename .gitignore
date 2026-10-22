@@ -1,0 +1,11 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+*.tmp
+__pycache__/
+.DS_Store
+Thumbs.db
+.qa/
+coverage/
