@@ -105,8 +105,8 @@
       "category": "drinks",
       "price": 420,
       "description": "Облепиха, апельсин, мёд и розмарин. Чайник 600 мл.",
-      "image": "assets/img/drink.webp",
-      "image_alt": "Фото: чай «тёплая осень», заглушка",
+      "image": "assets/img/tea-glass.webp",
+      "image_alt": "Облепиховый чай в стекле · ИИ-визуализация",
       "order": 10,
       "available": true
     },
@@ -116,8 +116,8 @@
       "category": "drinks",
       "price": 350,
       "description": "Груша, свежий шалфей, лимонный сок и газированная вода. 350 мл.",
-      "image": "assets/img/drink.webp",
-      "image_alt": "Фото: лимонад груша — шалфей, заглушка",
+      "image": "assets/img/lemonade-glass.webp",
+      "image_alt": "Грушевый лимонад в стакане · ИИ-визуализация",
       "order": 11,
       "available": true
     },
@@ -127,8 +127,8 @@
       "category": "drinks",
       "price": 280,
       "description": "Эспрессо и нежная молочная пена. 200 мл.",
-      "image": "assets/img/drink.webp",
-      "image_alt": "Фото: капучино, заглушка",
+      "image": "assets/img/cappuccino-glass.webp",
+      "image_alt": "Капучино в стакане · ИИ-визуализация",
       "order": 12,
       "available": true
     }
