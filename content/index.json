@@ -1,18 +1,4 @@
 {
-  "menu/dishes": [
-    "baked-beetroot",
-    "burrata",
-    "chocolate",
-    "coffee",
-    "duck",
-    "lemonade",
-    "mushroom-risotto",
-    "pear",
-    "pikeperch",
-    "tartare",
-    "tea",
-    "truffle-pasta"
-  ],
   "events": [
     "autumn-dinner",
     "harvest-dinner",

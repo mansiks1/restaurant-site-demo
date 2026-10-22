@@ -249,3 +249,10 @@
 .dish-card .image-label { position: static; display: block; max-width: 100%; padding: 0; margin-top: var(--s-2); color: var(--color-muted); background: none; font-size: var(--text-tiny); line-height: 1.4; }
 @media (max-width:1100px) { .dish-card .image-frame img { height: 100px; } }
 @media (max-width:767px) { .dish-card .image-frame img { height: 92px; } }
+
+#menu-sentinel { height: 1px; width: 100%; }
+.menu-pagination { display: grid; justify-items: center; gap: var(--s-4); padding-block: var(--s-6); }
+.menu-pagination p { font-size: var(--text-sm); color: var(--color-muted); }
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 450ms ease, transform 450ms ease; }
+.reveal.is-visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }

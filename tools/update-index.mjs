@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
-const groups=['menu/dishes','events','blog'];
+const groups=['events','blog'];
 const index={};
 for(const group of groups){
   index[group]=(await fs.readdir(path.join(root,'content',group))).filter(f=>f.endsWith('.md')).map(f=>f.slice(0,-3)).sort();

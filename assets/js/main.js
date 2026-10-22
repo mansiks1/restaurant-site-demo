@@ -1,3 +1,4 @@
+import { loadDishes } from './menu-data.js';
 import { url, esc, entries, entry, picture, money, dateLabel } from './content.js';
 
 const mark=`<svg class="brand-mark" viewBox="0 0 40 48" fill="none" aria-hidden="true"><path d="M20 44V4M20 5L5 16l15 10 15-10L20 5ZM5 28l15 11 15-11M5 16v12m30-12v12" stroke="currentColor" stroke-width="1.2"/></svg>`;
@@ -27,8 +28,13 @@ entry('content/pages/contacts.md').then(page=>{
 }).catch(()=>{});
 if(active==='home'){
   entry('content/pages/home.md').then(page=>{document.querySelector('[data-home-description]').textContent=page.description;document.querySelector('[data-home-title]').innerHTML=esc(page.title)+' <br><em>'+esc(page.title_accent)+'</em>';document.querySelector('[data-home-story-title]').textContent=page.story_title;document.querySelector('[data-home-story]').innerHTML=page.story_body.split('\n\n').map(p=>'<p>'+esc(p)+'</p>').join('');}).catch(()=>{});
-  entries('menu/dishes').then(items=>{
-    document.querySelector('[data-home-dishes]').innerHTML=items.filter(d=>d.available).sort((a,b)=>a.order-b.order).slice(0,3).map(d=>`<article class="card">${picture(d.image,d.image_alt)}<div class="card-content"><div class="home-dish-footer"><h3><a href="${url('menu/#'+encodeURIComponent(d.category))}">${esc(d.title)}</a></h3><span class="price">${money(d.price)}</span></div><p>${esc(d.description)}</p></div></article>`).join('');
+  loadDishes().then(items=>{
+    const target=document.querySelector('[data-home-dishes]');target.replaceChildren();
+    for(const dish of items.filter(d=>d.available).sort((a,b)=>a.order-b.order).slice(0,3)){
+      const article=document.createElement('article');article.className='card';
+      const figure=document.createElement('figure');figure.className='image-frame';const img=document.createElement('img');img.src=new URL('../../'+dish.image,import.meta.url);img.alt=dish.image_alt;img.width=960;img.height=720;img.loading='lazy';const caption=document.createElement('figcaption');caption.className='image-label';caption.textContent=dish.image_alt;figure.append(img,caption);
+      const body=document.createElement('div');body.className='card-content';const row=document.createElement('div');row.className='home-dish-footer';const h3=document.createElement('h3');const link=document.createElement('a');link.href=url('menu/#'+encodeURIComponent(dish.category));link.textContent=dish.title;h3.append(link);const price=document.createElement('span');price.className='price';price.textContent=money(dish.price);row.append(h3,price);const description=document.createElement('p');description.textContent=dish.description;body.append(row,description);article.append(figure,body);target.append(article);
+    }
   }).catch(()=>{document.querySelector('[data-home-dishes]').innerHTML='<p class="notice">Меню временно недоступно. Откройте раздел «Меню» или попробуйте позже.</p>';});
   entries('events').then(items=>{
     const upcoming=items.filter(e=>new Date(e.date)>=new Date()).sort((a,b)=>new Date(a.date)-new Date(b.date)).slice(0,3);

@@ -1,0 +1,136 @@
+{
+  "dishes": [
+    {
+      "id": "truffle-pasta",
+      "title": "Паста с трюфелем",
+      "category": "mains",
+      "price": 890,
+      "description": "Тальятелле, сливочный соус, выдержанный сыр и аромат чёрного трюфеля.",
+      "image": "assets/img/pasta.webp",
+      "image_alt": "Фото: паста с трюфелем, заглушка",
+      "order": 1,
+      "available": true
+    },
+    {
+      "id": "baked-beetroot",
+      "title": "Печёная свёкла",
+      "category": "starters",
+      "price": 590,
+      "description": "Мягкий козий сыр, руккола, фундук и заправка из чёрной смородины.",
+      "image": "assets/img/salad.webp",
+      "image_alt": "Фото: печёная свёкла, заглушка",
+      "order": 2,
+      "available": true
+    },
+    {
+      "id": "pikeperch",
+      "title": "Судак и цветная капуста",
+      "category": "mains",
+      "price": 1190,
+      "description": "Филе судака с золотистой корочкой, крем из цветной капусты и зелёное масло.",
+      "image": "assets/img/fish.webp",
+      "image_alt": "Фото: судак и цветная капуста, заглушка",
+      "order": 3,
+      "available": true
+    },
+    {
+      "id": "burrata",
+      "title": "Буррата с томатами",
+      "category": "starters",
+      "price": 790,
+      "description": "Спелые томаты, базилик, оливковое масло и домашний хлеб.",
+      "image": "assets/img/salad.webp",
+      "image_alt": "Фото: буррата с томатами, заглушка",
+      "order": 4,
+      "available": true
+    },
+    {
+      "id": "tartare",
+      "title": "Тартар из говядины",
+      "category": "starters",
+      "price": 850,
+      "description": "Каперсы, зернистая горчица, маринованный шалот и хрустящие гренки.",
+      "image": "assets/img/season.webp",
+      "image_alt": "Фото: тартар из говядины, заглушка",
+      "order": 5,
+      "available": true
+    },
+    {
+      "id": "duck",
+      "title": "Утка с печёной грушей",
+      "category": "mains",
+      "price": 1290,
+      "description": "Утиная грудка, пряная груша, корень сельдерея и соус из вишни.",
+      "image": "assets/img/fish.webp",
+      "image_alt": "Фото: утка с печёной грушей, заглушка",
+      "order": 6,
+      "available": true
+    },
+    {
+      "id": "mushroom-risotto",
+      "title": "Ризотто с лесными грибами",
+      "category": "mains",
+      "price": 920,
+      "description": "Арборио, белые грибы, пармезан и масло с тимьяном.",
+      "image": "assets/img/pasta.webp",
+      "image_alt": "Фото: ризотто с лесными грибами, заглушка",
+      "order": 7,
+      "available": false
+    },
+    {
+      "id": "chocolate",
+      "title": "Тёплый шоколадный пирог",
+      "category": "desserts",
+      "price": 490,
+      "description": "Шоколад с насыщенным вкусом, ванильное мороженое и вишня.",
+      "image": "assets/img/dessert.webp",
+      "image_alt": "Фото: тёплый шоколадный пирог, заглушка",
+      "order": 8,
+      "available": true
+    },
+    {
+      "id": "pear",
+      "title": "Груша в пряном сиропе",
+      "category": "desserts",
+      "price": 450,
+      "description": "Крем из рикотты, мёд, кардамон и миндальная крошка.",
+      "image": "assets/img/dessert.webp",
+      "image_alt": "Фото: груша в пряном сиропе, заглушка",
+      "order": 9,
+      "available": true
+    },
+    {
+      "id": "tea",
+      "title": "Чай «Тёплая осень»",
+      "category": "drinks",
+      "price": 420,
+      "description": "Облепиха, апельсин, мёд и розмарин. Чайник 600 мл.",
+      "image": "assets/img/drink.webp",
+      "image_alt": "Фото: чай «тёплая осень», заглушка",
+      "order": 10,
+      "available": true
+    },
+    {
+      "id": "lemonade",
+      "title": "Лимонад груша — шалфей",
+      "category": "drinks",
+      "price": 350,
+      "description": "Груша, свежий шалфей, лимонный сок и газированная вода. 350 мл.",
+      "image": "assets/img/drink.webp",
+      "image_alt": "Фото: лимонад груша — шалфей, заглушка",
+      "order": 11,
+      "available": true
+    },
+    {
+      "id": "coffee",
+      "title": "Капучино",
+      "category": "drinks",
+      "price": 280,
+      "description": "Эспрессо и нежная молочная пена. 200 мл.",
+      "image": "assets/img/drink.webp",
+      "image_alt": "Фото: капучино, заглушка",
+      "order": 12,
+      "available": true
+    }
+  ]
+}

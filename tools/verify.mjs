@@ -14,6 +14,21 @@ const manifest=JSON.parse(await read('content/index.json'));
 const categories=JSON.parse(await read('content/menu/categories.json')).categories;
 check(new Set(categories.map(c=>c.id)).size===categories.length,'Unique category IDs');
 for(const c of categories){check(/^[a-z][a-z0-9-]*$/.test(c.id),'Valid category anchor');check(c.title&&Number.isFinite(c.order),'Category title/order');}
+const dishes=JSON.parse(await read('content/menu/dishes.json')).dishes;
+check(Array.isArray(dishes),'Single dishes JSON list');
+check(new Set(dishes.map(d=>d.id)).size===dishes.length,'Unique dish IDs');
+for(const item of dishes){
+  check(item.title&&item.description,'Dish title/description');
+  check(categories.some(c=>c.id===item.category),'Known dish category');
+  check(Number.isInteger(item.price)&&item.price>=0,'Valid dish price');
+  check(typeof item.available==='boolean'&&Number.isFinite(item.order),'Availability/order');
+  check(item.image?.endsWith('.webp')&&await exists(item.image),'Local dish WebP');
+  check(Boolean(item.image_alt),'Dish image alt');
+}
+check(!await exists('content/menu/dishes'),'Obsolete Markdown dishes removed');
+const menuSource=await read('assets/js/menu.js');
+check(!menuSource.includes('innerHTML'),'Menu content uses DOM textContent');
+check(menuSource.includes("rootMargin: '200px'"),'Sentinel observer margin');
 const documents={};
 for(const [group,names] of Object.entries(manifest)){
   const actual=(await fs.readdir(path.join(root,'content',group))).filter(f=>f.endsWith('.md')).map(f=>f.slice(0,-3)).sort();
@@ -63,7 +78,7 @@ for(const file of (await fs.readdir(path.join(root,'assets/js'))).filter(f=>f.en
 }
 const config=load(await read('admin/config.yml'));
 check(config.backend.repo==='mansiks1/restaurant-site-demo'&&config.backend.branch==='main','Correct CMS repository/branch');
-check(config.collections.length===5,'Five CMS collections');check(config.media_folder==='assets/img/uploads'&&config.public_folder==='assets/img/uploads','Base-path-safe uploads');
+check(config.collections.length===5,'Five CMS collections');check(config.collections.find(c=>c.name==='dishes').files?.[0].file==='content/menu/dishes.json','CMS edits a JSON file');check(config.media_folder==='assets/img/uploads'&&config.public_folder==='assets/img/uploads','Base-path-safe uploads');
 function hints(fields){for(const field of fields||[]){check(Boolean(field.hint),`CMS hint: ${field.name}`);hints(field.fields);}}
 for(const collection of config.collections){hints(collection.fields);for(const file of collection.files||[])hints(file.fields);}
 check(await exists('.nojekyll'),'No Jekyll processing of Markdown');check(await exists('sitemap.xml'),'Sitemap exists');
@@ -74,4 +89,4 @@ function luminance(hex){const channels=hex.match(/\w\w/g).map(c=>parseInt(c,16)/
 const contrast=(a,b)=>{const x=luminance(a),y=luminance(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
 const pairs=[['text/background','f0ebdf','151914'],['muted/background','bdb6a7','151914'],['muted/raised','bdb6a7','292f24'],['accent/background','d7b584','151914'],['accent/raised','d7b584','292f24'],['button','252a21','d7b584'],['error/background','f2b4a0','151914']];
 const contrasts=pairs.map(([pair,a,b])=>{const ratio=contrast(a,b);check(ratio>=4.5,`${pair}: contrast >=4.5`);return{pair,ratio:Number(ratio.toFixed(2))};});
-console.log(JSON.stringify({status:'passed',checks,htmlPages:html.length,staticLinks:links,dishes:manifest['menu/dishes'].length,events:manifest.events.length,posts:manifest.blog.length,imageKB:Math.round(imageBytes/1024),contrasts},null,2));
+console.log(JSON.stringify({status:'passed',checks,htmlPages:html.length,staticLinks:links,dishes:dishes.length,events:manifest.events.length,posts:manifest.blog.length,imageKB:Math.round(imageBytes/1024),contrasts},null,2));

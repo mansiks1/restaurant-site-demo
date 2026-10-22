@@ -1,4 +1,3 @@
-# GitHub OAuth is configured separately; see README.md.
 backend:
   name: github
   repo: mansiks1/restaurant-site-demo
@@ -20,65 +19,75 @@ slug:
 collections:
   - name: dishes
     label: Блюда
-    label_singular: Блюдо
-    folder: content/menu/dishes
-    create: true
-    slug: '{{year}}{{month}}{{day}}-{{hour}}{{minute}}{{second}}-{{slug}}'
-    format: frontmatter
-    extension: md
-    summary: '{{title}} · {{price}} ₽'
-    fields:
-      - label: Название
-        name: title
-        widget: string
-        hint: Короткое понятное название на русском.
-      - label: Категория
-        name: category
-        widget: relation
-        hint: Выберите категорию из списка. Сначала создайте её в разделе «Категории меню».
-        collection: menu_categories
-        file: categories
-        search_fields:
-          - categories.*.title
-        display_fields:
-          - categories.*.title
-        value_field: categories.*.id
-      - label: Цена, ₽
-        name: price
-        widget: number
-        hint: Цена, только число. Для события 0 означает свободный вход.
-        value_type: int
-        min: 0
-      - label: Краткое описание
-        name: description
-        widget: text
-        hint: Один-два абзаца для карточки или вступления страницы.
-      - label: Изображение
-        name: image
-        widget: image
-        hint: Загрузите WebP. Файл сохранится в assets/img/uploads.
-        media_library:
-          config:
-            max_file_size: 2000000
-        pattern:
-          - .*\.webp$
-          - Выберите файл .webp.
-      - label: Подпись и alt
-        name: image_alt
-        widget: string
-        hint: Опишите, что на изображении. Для заглушки начните с «Фото:» и укажите «заглушка».
-      - label: Порядок
-        name: order
-        widget: number
-        hint: 'Позиция внутри категории: меньшее число выше.'
-        value_type: int
-        min: 0
-        default: 10
-      - label: В наличии
-        name: available
-        widget: boolean
-        hint: Выключите, если блюдо временно недоступно. Оно останется с пометкой.
-        default: true
+    files:
+      - name: dishes
+        label: Все блюда
+        file: content/menu/dishes.json
+        fields:
+          - label: Блюда
+            name: dishes
+            widget: list
+            hint: Единый список меню. Порядок задаётся полем «Порядок».
+            summary: '{{fields.title}} · {{fields.price}} ₽'
+            fields:
+              - label: ID блюда
+                name: id
+                widget: string
+                hint: 'Уникальное постоянное имя: латиница, цифры и дефис.'
+                pattern:
+                  - ^[a-z][a-z0-9-]*$
+                  - Используйте латиницу, цифры и дефис.
+              - label: Название
+                name: title
+                widget: string
+                hint: Короткое понятное название на русском.
+              - label: Категория
+                name: category
+                widget: relation
+                hint: Выберите категорию из списка. Сначала создайте её в разделе «Категории меню».
+                collection: menu_categories
+                file: categories
+                search_fields:
+                  - categories.*.title
+                display_fields:
+                  - categories.*.title
+                value_field: categories.*.id
+              - label: Цена, ₽
+                name: price
+                widget: number
+                hint: Цена, только число. Для события 0 означает свободный вход.
+                value_type: int
+                min: 0
+              - label: Краткое описание
+                name: description
+                widget: text
+                hint: Один-два абзаца для карточки или вступления страницы.
+              - label: Изображение
+                name: image
+                widget: image
+                hint: Загрузите WebP. Файл сохранится в assets/img/uploads.
+                media_library:
+                  config:
+                    max_file_size: 2000000
+                pattern:
+                  - .*\.webp$
+                  - Выберите файл .webp.
+              - label: Подпись и alt
+                name: image_alt
+                widget: string
+                hint: Опишите, что на изображении. Для заглушки начните с «Фото:» и укажите «заглушка».
+              - label: Порядок
+                name: order
+                widget: number
+                hint: 'Позиция внутри категории: меньшее число выше.'
+                value_type: int
+                min: 0
+                default: 10
+              - label: В наличии
+                name: available
+                widget: boolean
+                hint: Выключите, если блюдо временно недоступно. Оно останется с пометкой.
+                default: true
   - name: menu_categories
     label: Категории меню
     files:
