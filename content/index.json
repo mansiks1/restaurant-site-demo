@@ -13,6 +13,14 @@
     "lemonade",
     "coffee"
   ],
-  "events": [],
+  "events": [
+    "jazz-friday",
+    "autumn-dinner",
+    "sunday-lunch",
+    "tea-evening",
+    "november-jazz",
+    "harvest-dinner",
+    "october-music"
+  ],
   "blog": []
 }
