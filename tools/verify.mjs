@@ -24,6 +24,7 @@ for(const item of dishes){
   check(typeof item.available==='boolean'&&Number.isFinite(item.order),'Availability/order');
   check(item.image?.endsWith('.webp')&&await exists(item.image),'Local dish WebP');
   check(Boolean(item.image_alt),'Dish image alt');
+  check(item.chef_choice===undefined||typeof item.chef_choice==='boolean','Chef selection is boolean');
 }
 check(!await exists('content/menu/dishes'),'Obsolete Markdown dishes removed');
 const menuSource=await read('assets/js/menu.js');
@@ -81,6 +82,9 @@ for(const file of (await fs.readdir(path.join(root,'assets/img'))).filter(f=>f.e
 check(imageBytes<2500000,'Lightweight placeholder assets');
 function luminance(hex){const channels=hex.match(/\w\w/g).map(c=>parseInt(c,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return channels[0]*.2126+channels[1]*.7152+channels[2]*.0722;}
 const contrast=(a,b)=>{const x=luminance(a),y=luminance(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
-const pairs=[['text/background','1f2430','ffffff'],['muted/background','62646b','ffffff'],['muted/raised','62646b','f1eee8'],['gold text/background','806034','ffffff'],['gold text/raised','806034','f1eee8'],['button','1f2430','c9a66b'],['error/background','a3322b','ffffff']];
+const variables=await read('assets/css/variables.css');
+const color=name=>{const value=variables.match(new RegExp('--color-'+name+':\\s*#([0-9a-f]{6})','i'))?.[1];check(Boolean(value),`Color token: ${name}`);return value;};
+const colors=Object.fromEntries(['text','bg','muted','raised','accent-text','on-accent','accent','accent-hover','danger'].map(name=>[name,color(name)]));
+const pairs=[['text/background',colors.text,colors.bg],['muted/background',colors.muted,colors.bg],['muted/raised',colors.muted,colors.raised],['rose text/background',colors['accent-text'],colors.bg],['rose text/raised',colors['accent-text'],colors.raised],['button',colors['on-accent'],colors.accent],['button hover',colors['on-accent'],colors['accent-hover']],['error/background',colors.danger,colors.bg]];
 const contrasts=pairs.map(([pair,a,b])=>{const ratio=contrast(a,b);check(ratio>=4.5,`${pair}: contrast >=4.5`);return{pair,ratio:Number(ratio.toFixed(2))};});
 console.log(JSON.stringify({status:'passed',checks,htmlPages:html.length,staticLinks:links,dishes:dishes.length,events:manifest.events.length,posts:manifest.blog.length,imageKB:Math.round(imageBytes/1024),contrasts},null,2));

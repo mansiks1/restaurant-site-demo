@@ -35,7 +35,11 @@ export function mountMenu({ categories, dishes }, root = document) {
   const progress = root.querySelector('[data-menu-progress]');
   const sentinel = root.querySelector('#menu-sentinel');
   const more = root.querySelector('[data-menu-more]');
+  const chefSection = root.querySelector('[data-chef-section]');
+  const chefGrid = root.querySelector('[data-chef-picks]');
   const sortedCategories = [...categories].sort((a, b) => a.order - b.order);
+  const chefDishes = dishes.filter(dish => dish.chef_choice === true && dish.available && categories.some(category => category.id === dish.category))
+    .sort((a, b) => a.order - b.order).slice(0, 3);
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const supportsObservers = typeof IntersectionObserver !== 'undefined';
   let filtered = [], cursor = 0;
@@ -84,6 +88,7 @@ export function mountMenu({ categories, dishes }, root = document) {
     batchObserver?.disconnect(); revealObserver?.disconnect();
     content.replaceChildren(); navigation.replaceChildren(); sections.clear(); cursor = 0;
     const query = normal(search.value);
+    if (chefSection) chefSection.hidden = Boolean(query) || !chefDishes.length;
     const matching = dishes.filter(dish => normal(dish.title).includes(query));
     filtered = sortedCategories.flatMap(category => matching.filter(dish => dish.category === category.id).sort((a, b) => a.order - b.order));
     for (const category of sortedCategories) {
@@ -114,13 +119,26 @@ export function mountMenu({ categories, dishes }, root = document) {
     if (!event.matches) return;
     revealObserver?.disconnect(); content.querySelectorAll('.reveal').forEach(card => card.classList.add('is-visible'));
   }
+  if (chefGrid) {
+    chefGrid.replaceChildren();
+    for (const dish of chefDishes) {
+      const card = createDishCard(dish);
+      card.className = 'chef-card';
+      const link = element('a', 'text-link', 'К разделу меню →');
+      link.href = `#${dish.category}`; link.dataset.category = dish.category;
+      card.querySelector('.dish-content').append(link);
+      chefGrid.append(card);
+    }
+  }
   search.addEventListener('input', render); navigation.addEventListener('click', navigate);
+  chefSection?.addEventListener('click', navigate);
   more.addEventListener('click', appendBatch); reducedMotion.addEventListener('change', reduceMotion);
   render();
   try { if (location.hash) ensureCategory(decodeURIComponent(location.hash.slice(1))); } catch { /* Invalid fragments do not break the menu. */ }
   return { destroy() {
     batchObserver?.disconnect(); revealObserver?.disconnect(); search.removeEventListener('input', render);
     navigation.removeEventListener('click', navigate); more.removeEventListener('click', appendBatch);
+    chefSection?.removeEventListener('click', navigate);
     reducedMotion.removeEventListener('change', reduceMotion);
   } };
 }

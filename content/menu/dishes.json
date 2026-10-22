@@ -9,7 +9,8 @@
       "image": "assets/img/dish-truffle-pasta.webp",
       "image_alt": "Паста с трюфелем · ИИ-визуализация",
       "order": 1,
-      "available": true
+      "available": true,
+      "chef_choice": true
     },
     {
       "id": "baked-beetroot",
@@ -20,7 +21,8 @@
       "image": "assets/img/dish-baked-beetroot.webp",
       "image_alt": "Печёная свёкла · ИИ-визуализация",
       "order": 2,
-      "available": true
+      "available": true,
+      "chef_choice": true
     },
     {
       "id": "pikeperch",
@@ -31,7 +33,8 @@
       "image": "assets/img/dish-pikeperch.webp",
       "image_alt": "Судак и цветная капуста · ИИ-визуализация",
       "order": 3,
-      "available": true
+      "available": true,
+      "chef_choice": true
     },
     {
       "id": "burrata",
