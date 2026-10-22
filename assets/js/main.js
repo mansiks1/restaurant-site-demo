@@ -11,7 +11,14 @@ const toggle=document.querySelector('.menu-toggle');const nav=document.querySele
 function closeMenu(restore=false){toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Открыть меню');nav.classList.remove('is-open');scrim.hidden=true;document.body.classList.remove('nav-open');if(restore)toggle.focus();}
 toggle.addEventListener('click',()=>{const opened=toggle.getAttribute('aria-expanded')==='true';if(opened)closeMenu();else{toggle.setAttribute('aria-expanded','true');toggle.setAttribute('aria-label','Закрыть меню');nav.classList.add('is-open');scrim.hidden=false;document.body.classList.add('nav-open');}});
 document.addEventListener('click',event=>{if(!nav.contains(event.target)&&!toggle.contains(event.target))closeMenu();});
-document.addEventListener('keydown',event=>{if(event.key==='Escape')closeMenu(true);});
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&toggle.getAttribute('aria-expanded')==='true')closeMenu(true);
+  if(event.key==='Tab'&&toggle.getAttribute('aria-expanded')==='true'){
+    const controls=[...nav.querySelectorAll('a'),toggle];const first=controls[0],last=controls.at(-1);
+    if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+    else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+  }
+});
 nav.addEventListener('click',event=>{if(event.target.closest('a'))closeMenu();});
 matchMedia('(min-width: 1101px)').addEventListener('change',()=>closeMenu());
 entry('content/pages/contacts.md').then(page=>{
