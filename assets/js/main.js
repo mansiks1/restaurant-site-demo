@@ -2,18 +2,16 @@ import { url, esc, entries, entry, money, dateLabel, contacts } from './content.
 import { loadDishes } from './menu-data.js';
 
 const brand = `<a class="brand" href="${url('')}" aria-label="Розалия — на главную"><span class="brand-name">Розалия</span></a>`;
-const cutlery = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 3v5c0 3 5 3 5 0V3M7.5 3v18M17 3c-3 4-3 8 0 8h2M19 3v18" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>';
-const pin = '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" stroke="currentColor" stroke-width="1.1"/><circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.1"/></svg>';
 const active = document.body.dataset.page;
-const primaryLinks = [['menu','МЕНЮ'],['about','РЕСТОРАН'],['events','КАЛЕНДАРЬ СОБЫТИЙ'],['contacts','КОНТАКТЫ']];
+const primaryLinks = [['menu','Меню'],['about','Ресторан'],['events','События'],['contacts','Контакты']];
 const allLinks = [['menu','Меню'],['about','Ресторан'],['events','Календарь событий'],['gallery','Галерея'],['blog','Журнал'],['contacts','Контакты']];
 const navigation = (links, className) => links.map(([path, title]) => `<a class="${className}" href="${url(path+'/')}" ${active===path?'aria-current="page"':''}>${title}</a>`).join('');
 const contact = name => `<span data-contact-value="${name}"></span>`;
 
 const header = document.querySelector('[data-site-header]');
-header.innerHTML = `<div class="container header-top"><div class="header-contact"><span class="contact-icon">${cutlery}</span><div class="header-contact-copy">${contact('email')}${contact('phone')}</div></div>${brand}<div class="header-address"><div class="header-address-copy" data-header-address></div><span class="contact-icon">${pin}</span></div></div><div class="container header-nav-row"><nav class="primary-nav" aria-label="Основная навигация">${navigation(primaryLinks,'nav-link')}</nav></div>`;
+header.innerHTML = `<div class="container header-inner">${brand}<nav class="primary-nav" aria-label="Основная навигация">${navigation(primaryLinks,'nav-link')}</nav><a class="button header-book" href="${url('contacts/#booking')}">Забронировать</a></div>`;
 const footer = document.querySelector('[data-site-footer]');
-footer.innerHTML = `<div class="container"><div class="footer-grid"><div>${brand}<p class="footer-intro">Хорошая еда. Неспешные разговоры.<br>Вечера, к которым хочется вернуться.</p></div><div><p class="footer-heading">Загляните к нам</p><p data-footer-address></p><p data-footer-hours>Вс–чт 12:00–23:00<br>Пт–сб 12:00–00:00</p></div><div><p class="footer-heading">Знакомство с Розалией</p><nav class="footer-links" aria-label="Навигация в подвале">${navigation(allLinks,'footer-link')}</nav></div></div><div class="footer-note"><span>© ${new Date().getFullYear()} Розалия</span><span>Демонстрационный проект. Данные ресторана вымышлены.</span></div></div>`;
+footer.innerHTML = `<div class="container"><div class="footer-grid"><div>${brand}<p class="footer-intro">Городское бистро для своих.<br>Сезонная кухня и маленькие традиции.</p></div><div><p class="footer-heading">До встречи в Розалии</p><p data-footer-address></p><div class="footer-contact-copy">${contact('phone')}${contact('email')}</div><p data-footer-hours>Вс–чт 12:00–23:00<br>Пт–сб 12:00–00:00</p></div><div><p class="footer-heading">Загляните к нам</p><nav class="footer-links" aria-label="Навигация в подвале">${navigation(allLinks,'footer-link')}</nav></div></div><div class="footer-note"><span>© ${new Date().getFullYear()} Розалия</span><span>Демонстрационный проект. Данные ресторана вымышлены.</span></div></div>`;
 
 function renderContacts() {
   for (const node of document.querySelectorAll('[data-contact-value]')) {
@@ -24,9 +22,6 @@ function renderContacts() {
     if(!contacts.demo&&key==='email'&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))href='mailto:'+value;
     if(href){const link=document.createElement('a');link.href=href;link.textContent=value;node.append(link);}else node.textContent=value;
   }
-  const address=document.querySelector('[data-header-address]'); address.replaceChildren();
-  const parts=String(contacts.address).split(',');
-  for(const line of [parts.shift(),parts.join(',')]){const row=document.createElement('span');row.textContent=line.trim();address.append(row);}
   document.querySelector('[data-footer-address]').textContent=contacts.address+(contacts.demo?' · Демонстрационный адрес':'');
 }
 renderContacts();
