@@ -25,6 +25,28 @@ export function markdown(text) {
   return fragment.innerHTML;
 }
 const cache = new Map();
+let indexPromise;
+export function contentIndex(){
+  if(indexPromise)return indexPromise;
+  indexPromise=(async()=>{
+    const fallback=await json('content/index.json');
+    // New Decap entries are discovered at runtime after public GitHub Pages publication.
+    // Local/private previews use the checked-in manifest; no access token is sent to visitors.
+    if(location.hostname!=='mansiks1.github.io')return fallback;
+    const key='runika-content-index-v1';
+    try{
+      const saved=JSON.parse(sessionStorage.getItem(key)||'null');
+      if(saved&&Date.now()-saved.time<120000)return saved.index;
+      const response=await fetch('https://api.github.com/repos/mansiks1/restaurant-site-demo/git/trees/main?recursive=1',{signal:AbortSignal.timeout(5000)});
+      if(!response.ok)throw Error('GitHub content index unavailable');
+      const result=await response.json();if(result.truncated)throw Error('Repository index truncated');
+      const index={};
+      for(const group of Object.keys(fallback))index[group]=result.tree.filter(f=>f.type==='blob'&&f.path.startsWith(`content/${group}/`)&&f.path.endsWith('.md')&&!f.path.slice(`content/${group}/`.length).includes('/')).map(f=>f.path.split('/').pop().slice(0,-3));
+      try{sessionStorage.setItem(key,JSON.stringify({time:Date.now(),index}));}catch{}
+      return index;
+    }catch{return fallback;}
+  })();return indexPromise;
+}
 export async function json(path) { const response=await fetch(url(path)); if(!response.ok) throw Error(`Не удалось загрузить ${path}`); return response.json(); }
 export async function entry(path) {
   const response=await fetch(url(path)); if(!response.ok) throw Error(`Не удалось загрузить ${path}`);
@@ -35,7 +57,7 @@ export async function entry(path) {
 export async function entries(group) {
   if(cache.has(group))return cache.get(group);
   const task=(async()=>{
-    const manifest=await json('content/index.json');
+    const manifest=await contentIndex();
     const names=manifest[group] || [];
     return Promise.all(names.map(name=>entry(`content/${group}/${name}.md`)));
   })(); cache.set(group, task); return task;

@@ -1,0 +1,366 @@
+# GitHub OAuth is configured separately; see README.md.
+backend:
+  name: github
+  repo: mansiks1/restaurant-site-demo
+  branch: main
+  commit_messages:
+    create: 'Контент: добавить {{collection}} «{{slug}}»'
+    update: 'Контент: обновить {{collection}} «{{slug}}»'
+    delete: 'Контент: удалить {{collection}} «{{slug}}»'
+local_backend: true
+locale: ru
+media_folder: assets/img/uploads
+public_folder: assets/img/uploads
+site_url: https://mansiks1.github.io/restaurant-site-demo
+display_url: https://mansiks1.github.io/restaurant-site-demo/
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: '-'
+collections:
+  - name: dishes
+    label: Блюда
+    label_singular: Блюдо
+    folder: content/menu/dishes
+    create: true
+    slug: '{{year}}{{month}}{{day}}-{{hour}}{{minute}}{{second}}-{{slug}}'
+    format: frontmatter
+    extension: md
+    summary: '{{title}} · {{price}} ₽'
+    fields:
+      - label: Название
+        name: title
+        widget: string
+        hint: Короткое понятное название на русском.
+      - label: Категория
+        name: category
+        widget: relation
+        hint: Выберите категорию из списка. Сначала создайте её в разделе «Категории меню».
+        collection: menu_categories
+        file: categories
+        search_fields:
+          - categories.*.title
+        display_fields:
+          - categories.*.title
+        value_field: categories.*.id
+      - label: Цена, ₽
+        name: price
+        widget: number
+        hint: Цена, только число. Для события 0 означает свободный вход.
+        value_type: int
+        min: 0
+      - label: Краткое описание
+        name: description
+        widget: text
+        hint: Один-два абзаца для карточки или вступления страницы.
+      - label: Изображение
+        name: image
+        widget: image
+        hint: Загрузите WebP. Файл сохранится в assets/img/uploads.
+        media_library:
+          config:
+            max_file_size: 2000000
+        pattern:
+          - .*\.webp$
+          - Выберите файл .webp.
+      - label: Подпись и alt
+        name: image_alt
+        widget: string
+        hint: Опишите, что на изображении. Для заглушки начните с «Фото:» и укажите «заглушка».
+      - label: Порядок
+        name: order
+        widget: number
+        hint: 'Позиция внутри категории: меньшее число выше.'
+        value_type: int
+        min: 0
+        default: 10
+      - label: В наличии
+        name: available
+        widget: boolean
+        hint: Выключите, если блюдо временно недоступно. Оно останется с пометкой.
+        default: true
+  - name: menu_categories
+    label: Категории меню
+    files:
+      - name: categories
+        label: Список категорий
+        file: content/menu/categories.json
+        fields:
+          - label: Категории
+            name: categories
+            widget: list
+            hint: Порядок задаётся числом. ID должен быть уникальным.
+            fields:
+              - label: ID категории
+                name: id
+                widget: string
+                hint: Латиница, цифры и дефис. После создания блюд ID не меняйте.
+                pattern:
+                  - ^[a-z][a-z0-9-]*$
+                  - Используйте латиницу, цифры и дефис.
+              - label: Название
+                name: title
+                widget: string
+                hint: Короткое понятное название на русском.
+              - label: Краткое описание
+                name: description
+                widget: text
+                hint: Один-два абзаца для карточки или вступления страницы.
+              - label: Порядок
+                name: order
+                widget: number
+                hint: 'Порядок категории: меньшее число выше.'
+                value_type: int
+                min: 1
+  - name: events
+    label: События
+    label_singular: Событие
+    folder: content/events
+    create: true
+    slug: '{{year}}{{month}}{{day}}-{{hour}}{{minute}}{{second}}-{{slug}}'
+    format: frontmatter
+    extension: md
+    preview_path: events/event.html?slug={{slug}}
+    fields:
+      - label: Название
+        name: title
+        widget: string
+        hint: Короткое понятное название на русском.
+      - label: Дата и время
+        name: date
+        widget: datetime
+        hint: Дата и время начала. При вводе ориентируйтесь на Москву (UTC+3).
+        date_format: DD.MM.YYYY
+        time_format: HH:mm
+        format: YYYY-MM-DDTHH:mm:ssZ
+        picker_utc: false
+      - label: Тип встречи
+        name: kind
+        widget: string
+        hint: 'Например: «Живой звук» или «Гастрономический ужин».'
+      - label: Цена, ₽
+        name: price
+        widget: number
+        hint: Цена, только число. Для события 0 означает свободный вход.
+        value_type: int
+        min: 0
+      - label: Краткое описание
+        name: description
+        widget: text
+        hint: Один-два абзаца для карточки или вступления страницы.
+      - label: Изображение
+        name: image
+        widget: image
+        hint: Загрузите WebP. Файл сохранится в assets/img/uploads.
+        media_library:
+          config:
+            max_file_size: 2000000
+        pattern:
+          - .*\.webp$
+          - Выберите файл .webp.
+      - label: Подпись и alt
+        name: image_alt
+        widget: string
+        hint: Опишите, что на изображении. Для заглушки начните с «Фото:» и укажите «заглушка».
+      - label: Основной текст
+        name: body
+        widget: markdown
+        hint: Текст страницы. Используйте заголовки второго уровня и ниже; h1 уже есть на странице.
+  - name: blog
+    label: Журнал
+    label_singular: Статья
+    folder: content/blog
+    create: true
+    slug: '{{year}}{{month}}{{day}}-{{hour}}{{minute}}{{second}}-{{slug}}'
+    format: frontmatter
+    extension: md
+    preview_path: blog/post.html?slug={{slug}}
+    fields:
+      - label: Название
+        name: title
+        widget: string
+        hint: Короткое понятное название на русском.
+      - label: Дата публикации
+        name: date
+        widget: datetime
+        hint: Дата, которая будет показана читателям.
+        date_format: DD.MM.YYYY
+        time_format: false
+        format: YYYY-MM-DD
+      - label: Категория
+        name: category
+        widget: select
+        hint: Выберите тему статьи.
+        options:
+          - Кухня
+          - Атмосфера
+          - За кулисами
+      - label: Краткое описание
+        name: description
+        widget: text
+        hint: Один-два абзаца для карточки или вступления страницы.
+      - label: Изображение
+        name: image
+        widget: image
+        hint: Загрузите WebP. Файл сохранится в assets/img/uploads.
+        media_library:
+          config:
+            max_file_size: 2000000
+        pattern:
+          - .*\.webp$
+          - Выберите файл .webp.
+      - label: Подпись и alt
+        name: image_alt
+        widget: string
+        hint: Опишите, что на изображении. Для заглушки начните с «Фото:» и укажите «заглушка».
+      - label: Основной текст
+        name: body
+        widget: markdown
+        hint: Текст страницы. Используйте заголовки второго уровня и ниже; h1 уже есть на странице.
+  - name: pages
+    label: Страницы
+    files:
+      - name: home
+        label: Главная
+        file: content/pages/home.md
+        fields:
+          - label: Название
+            name: title
+            widget: string
+            hint: Короткое понятное название на русском.
+          - label: Акцент заголовка
+            name: title_accent
+            widget: string
+            hint: Вторая часть заголовка, выделенная курсивом.
+          - label: Краткое описание
+            name: description
+            widget: text
+            hint: Один-два абзаца для карточки или вступления страницы.
+          - label: Заголовок истории
+            name: story_title
+            widget: string
+            hint: Заголовок блока о ресторане на главной.
+          - label: Текст истории
+            name: story_body
+            widget: text
+            hint: Основной текст блока о ресторане на главной.
+      - name: about
+        label: О ресторане
+        file: content/pages/about.md
+        fields:
+          - label: Название
+            name: title
+            widget: string
+            hint: Короткое понятное название на русском.
+          - label: Краткое описание
+            name: description
+            widget: text
+            hint: Один-два абзаца для карточки или вступления страницы.
+          - label: Изображение
+            name: image
+            widget: image
+            hint: Загрузите WebP. Файл сохранится в assets/img/uploads.
+            media_library:
+              config:
+                max_file_size: 2000000
+            pattern:
+              - .*\.webp$
+              - Выберите файл .webp.
+          - label: Подпись и alt
+            name: image_alt
+            widget: string
+            hint: Опишите, что на изображении. Для заглушки начните с «Фото:» и укажите «заглушка».
+          - label: Основной текст
+            name: body
+            widget: markdown
+            hint: Текст страницы. Используйте заголовки второго уровня и ниже; h1 уже есть на странице.
+      - name: contacts
+        label: Контакты
+        file: content/pages/contacts.md
+        fields:
+          - label: Название
+            name: title
+            widget: string
+            hint: Короткое понятное название на русском.
+          - label: Краткое описание
+            name: description
+            widget: text
+            hint: Один-два абзаца для карточки или вступления страницы.
+          - label: Адрес
+            name: address
+            widget: string
+            hint: Адрес ресторана. Замените демонстрационный адрес перед запуском.
+          - label: Часы работы
+            name: hours
+            widget: text
+            hint: Дни недели и время, например «Вс–чт 12:00–23:00».
+          - label: Телефон
+            name: phone
+            widget: string
+            hint: Номер для бронирования. Замените демонстрационный номер перед запуском.
+          - label: Почта
+            name: email
+            widget: string
+            hint: Почта для связи. Замените демонстрационный адрес перед запуском.
+          - label: Демонстрационные контакты
+            name: demo
+            widget: boolean
+            hint: Выключайте только после замены адреса, номера и почты на настоящие.
+            default: true
+          - label: Изображение
+            name: image
+            widget: image
+            hint: Загрузите WebP. Файл сохранится в assets/img/uploads.
+            media_library:
+              config:
+                max_file_size: 2000000
+            pattern:
+              - .*\.webp$
+              - Выберите файл .webp.
+          - label: Подпись и alt
+            name: image_alt
+            widget: string
+            hint: Опишите, что на изображении. Для заглушки начните с «Фото:» и укажите «заглушка».
+          - label: Основной текст
+            name: body
+            widget: markdown
+            hint: Текст страницы. Используйте заголовки второго уровня и ниже; h1 уже есть на странице.
+      - name: gallery
+        label: Галерея
+        file: content/pages/gallery.md
+        fields:
+          - label: Название
+            name: title
+            widget: string
+            hint: Короткое понятное название на русском.
+          - label: Краткое описание
+            name: description
+            widget: text
+            hint: Один-два абзаца для карточки или вступления страницы.
+          - label: Основной текст
+            name: body
+            widget: markdown
+            hint: Текст страницы. Используйте заголовки второго уровня и ниже; h1 уже есть на странице.
+          - label: Изображения галереи
+            name: images
+            widget: list
+            hint: Добавляйте только изображения WebP с понятной подписью.
+            fields:
+              - label: Название
+                name: title
+                widget: string
+                hint: Короткое понятное название на русском.
+              - label: Изображение
+                name: image
+                widget: image
+                hint: Загрузите WebP. Файл сохранится в assets/img/uploads.
+                media_library:
+                  config:
+                    max_file_size: 2000000
+                pattern:
+                  - .*\.webp$
+                  - Выберите файл .webp.
+              - label: Подпись и alt
+                name: alt
+                widget: string
+                hint: Кратко опишите изображение. Отмечайте заглушки.

@@ -22,11 +22,11 @@ document.addEventListener('keydown',event=>{
 nav.addEventListener('click',event=>{if(event.target.closest('a'))closeMenu();});
 matchMedia('(min-width: 1101px)').addEventListener('change',()=>closeMenu());
 entry('content/pages/contacts.md').then(page=>{
-  document.querySelector('[data-footer-address]').textContent=page.address+' · Демонстрационный адрес';
+  document.querySelector('[data-footer-address]').textContent=page.address+(page.demo?' · Демонстрационный адрес':'');
   document.querySelector('[data-footer-hours]').textContent=page.hours;
 }).catch(()=>{});
 if(active==='home'){
-  entry('content/pages/home.md').then(page=>{document.querySelector('[data-home-description]').textContent=page.description;}).catch(()=>{});
+  entry('content/pages/home.md').then(page=>{document.querySelector('[data-home-description]').textContent=page.description;document.querySelector('[data-home-title]').innerHTML=esc(page.title)+'<br><em>'+esc(page.title_accent)+'</em>';document.querySelector('[data-home-story-title]').textContent=page.story_title;document.querySelector('[data-home-story]').innerHTML=page.story_body.split('\n\n').map(p=>'<p>'+esc(p)+'</p>').join('');}).catch(()=>{});
   entries('menu/dishes').then(items=>{
     document.querySelector('[data-home-dishes]').innerHTML=items.filter(d=>d.available).sort((a,b)=>a.order-b.order).slice(0,3).map(d=>`<article class="card">${picture(d.image,d.image_alt)}<div class="card-content"><div class="home-dish-footer"><h3><a href="${url('menu/#'+encodeURIComponent(d.category))}">${esc(d.title)}</a></h3><span class="price">${money(d.price)}</span></div><p>${esc(d.description)}</p></div></article>`).join('');
   }).catch(()=>{});

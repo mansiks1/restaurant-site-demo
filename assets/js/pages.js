@@ -10,8 +10,15 @@ try{
   if(name==='contacts'){
     document.querySelector('[data-contact-address]').textContent=page.address;
     document.querySelector('[data-contact-hours]').textContent=page.hours;
-    document.querySelector('[data-contact-phone]').textContent=page.phone;
-    document.querySelector('[data-contact-email]').textContent=page.email;
+    const phone=document.querySelector('[data-contact-phone]');phone.textContent=page.phone;
+    const email=document.querySelector('[data-contact-email]');
+    if(!page.demo){
+      const cleanPhone=String(page.phone).replace(/[^+\d]/g,'');
+      if(/^\+?\d{7,15}$/.test(cleanPhone))phone.innerHTML='<a href="tel:'+esc(cleanPhone)+'">'+esc(page.phone)+'</a>';
+      if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(page.email))email.innerHTML='<a href="mailto:'+esc(page.email)+'">'+esc(page.email)+'</a>';
+      document.querySelector('.demo-note').hidden=true;document.querySelector('[data-contact-address]').nextElementSibling.hidden=true;
+    }
+    if(page.demo)document.querySelector('[data-contact-email]').textContent=page.email;
   }
   if(name==='gallery'){
     document.querySelector('[data-gallery]').innerHTML=(page.images||[]).map((image,i)=>`<figure class="gallery-item"><button class="gallery-button" data-image="${i}" aria-label="Открыть: ${esc(image.title)}"><img src="${esc(imageUrl(image.image))}" alt="${esc(image.alt)}" width="1200" height="960" loading="lazy" decoding="async"><span class="gallery-zoom" aria-hidden="true">↗</span></button><figcaption><span>${esc(image.title)}</span><span class="muted">${esc(image.alt)}</span></figcaption></figure>`).join('');
