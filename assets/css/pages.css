@@ -263,7 +263,7 @@
 .page-hero::after { content: ''; position: absolute; inset: 0; background: var(--hero-overlay); z-index: -1; }
 .page-hero-inner { display: grid; justify-items: center; gap: var(--s-6); padding-block: var(--s-6); }
 .page-hero-title { display: flex; align-items: center; justify-content: center; gap: var(--s-6); width: 100%; min-width: 0; }
-.page-hero h1 { color: var(--color-white); text-align: center; text-transform: uppercase; font-size: var(--text-page-hero); font-weight: 600; line-height: 1.2; letter-spacing: .035em; min-width: 0; max-width: 1040px; overflow-wrap: anywhere; }
+.page-hero h1, .page-hero-label { color: var(--color-white); text-align: center; text-transform: uppercase; font-size: var(--text-page-hero); font-weight: 600; line-height: 1.2; letter-spacing: .035em; min-width: 0; max-width: 1040px; overflow-wrap: anywhere; }
 .hero-cross { width: 42px; height: 42px; flex-shrink: 0; color: var(--color-accent); }
 .page-hero .breadcrumbs { color: var(--color-white); justify-content: center; gap: var(--s-3); margin: 0; font-size: var(--text-breadcrumb); letter-spacing: .1em; text-transform: uppercase; text-align: center; line-height: 1.6; }
 .page-hero .breadcrumbs a:hover { color: var(--color-white); text-decoration: underline; }
@@ -272,6 +272,7 @@
 .page-description .eyebrow { margin-bottom: var(--s-3); }
 .page-description .page-intro { margin-top: 0; max-width: 760px; }
 .page-description h2 { font-size: var(--text-xl); margin-bottom: var(--s-4); }
+.page-description .detail-heading { font-size: var(--text-heading); margin-bottom: var(--s-6); }
 .category-heading { border-bottom-color: var(--color-accent); }
 .dish-card { background: var(--color-bg); }
 .dish-title h3 { font-weight: 500; line-height: 1.45; max-width: 100%; overflow-wrap: anywhere; }
@@ -285,14 +286,14 @@
 .article-content { max-width: 1000px; }
 .site-footer .brand-name { font-size: var(--text-footer-logo); }
 .footer-grid .brand { justify-content: flex-start; }
-@media (max-width:1023px) { .page-heading.page-hero { height: var(--hero-height-mobile); } .page-hero h1 { font-size: var(--text-page-tablet); } }
+@media (max-width:1023px) { .page-heading.page-hero { height: var(--hero-height-mobile); } .page-hero h1, .page-hero-label { font-size: var(--text-page-tablet); } }
 @media (max-width:767px) {
   .page-heading.page-hero { height: var(--hero-height-mobile); }
-  .page-hero h1 { font-size: var(--text-page-mobile); }
-  .page-hero-title { gap: var(--s-3); }
-  .hero-cross { width: 22px; height: 30px; }
+  .page-hero h1, .page-hero-label { font-size: var(--text-page-mobile); letter-spacing: 0; }
+  .page-hero-title { gap: var(--s-2); }
+  .hero-cross { width: 18px; height: 26px; }
   .page-hero-inner { gap: var(--s-4); padding-block: var(--s-5); }
-  .page-hero .breadcrumbs { font-size: var(--text-xs); gap: var(--s-2); }
+  .page-hero .breadcrumbs { gap: var(--s-2); }
   .hero-photo-label { font-size: var(--text-photo-label); bottom: var(--s-2); }
   .page-description { padding-block: var(--s-6); }
   .hero-actions .button { flex: 1 1 40%; }
