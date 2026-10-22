@@ -5,7 +5,7 @@ demo: true
 address: "Москва, ул. Лесная, 12"
 hours: "Вс–чт 12:00–23:00; пт–сб 12:00–00:00"
 phone: "+7 (000) 000-00-00"
-email: "hello@runika.example"
+email: "hello@rosalia.example"
 image: "assets/img/interior.webp"
 image_alt: "Фото: стол для вашей встречи, заглушка"
 ---

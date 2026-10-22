@@ -33,7 +33,7 @@ export function contentIndex(){
     // New Decap entries are discovered at runtime after public GitHub Pages publication.
     // Local/private previews use the checked-in manifest; no access token is sent to visitors.
     if(location.hostname!=='mansiks1.github.io')return fallback;
-    const key='runika-content-index-v1';
+    const key='rosalia-content-index-v1';
     try{
       const saved=JSON.parse(sessionStorage.getItem(key)||'null');
       if(saved&&Date.now()-saved.time<120000)return saved.index;
@@ -67,7 +67,7 @@ export async function entries(group) {
 }
 export function showError(element, message='Не удалось загрузить содержимое. Обновите страницу или свяжитесь с рестораном через раздел «Контакты».') { element.innerHTML=`<p class="notice error-state" role="alert">${esc(message)}</p>`; }
 export function setMeta(title, description) {
-  document.title=`${title} — РУНИКА`; document.querySelector('meta[name="description"]').content=description;
+  document.title=`${title} — Розалия`; document.querySelector('meta[name="description"]').content=description;
   const ogTitle=document.querySelector('meta[property="og:title"]');if(ogTitle)ogTitle.content=document.title;
   const ogDescription=document.querySelector('meta[property="og:description"]');if(ogDescription)ogDescription.content=description;
   const canonical=document.querySelector('link[rel="canonical"]');

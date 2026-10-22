@@ -88,6 +88,7 @@ collections:
                 widget: boolean
                 hint: Выключите, если блюдо временно недоступно. Оно останется с пометкой.
                 default: true
+    description: 'Меню ресторана «Розалия»: все блюда в одном JSON-файле.'
   - name: menu_categories
     label: Категории меню
     files:

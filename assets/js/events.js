@@ -5,7 +5,7 @@ try{
   const events=(await entries('events')).sort((a,b)=>new Date(a.date)-new Date(b.date));
   if(detail){
     const slug=new URLSearchParams(location.search).get('slug');const event=events.find(e=>e.slug===slug);
-    if(!event){document.querySelector('[data-detail-title]').textContent='Событие не найдено';document.querySelector('[data-detail-intro]').textContent='Возможно, адрес изменился. Выберите встречу в нашей афише.';detail.innerHTML=`<a class="button" href="${url('events/')}">Вернуться к афише</a>`;setMeta('Событие не найдено','Вернитесь к афише РУНИКИ и выберите ближайшую встречу.');}
+    if(!event){document.querySelector('[data-detail-title]').textContent='Событие не найдено';document.querySelector('[data-detail-intro]').textContent='Возможно, адрес изменился. Выберите встречу в нашей афише.';detail.innerHTML=`<a class="button" href="${url('events/')}">Вернуться к афише</a>`;setMeta('Событие не найдено','Вернитесь к афише Розалии и выберите ближайшую встречу.');}
     else{
       const past=new Date(event.date)<new Date();setMeta(event.title,event.description);
       document.querySelector('[data-detail-title]').textContent=event.title;document.querySelector('[data-detail-intro]').textContent=event.description;document.querySelector('[data-detail-crumb]').textContent=event.title;document.querySelector('[data-event-kind]').textContent=event.kind;

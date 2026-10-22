@@ -5,7 +5,7 @@ try{
   const posts=(await entries('blog')).sort((a,b)=>new Date(b.date)-new Date(a.date));
   if(content){
     const slug=new URLSearchParams(location.search).get('slug');const index=posts.findIndex(p=>p.slug===slug);const post=posts[index];
-    if(!post){document.querySelector('[data-post-title]').textContent='Статья не найдена';document.querySelector('[data-post-description]').textContent='Возможно, адрес изменился. Другие истории ждут вас в журнале.';content.innerHTML=`<a class="button" href="${url('blog/')}">Вернуться в журнал</a>`;setMeta('Статья не найдена','Откройте журнал РУНИКИ и выберите статью о сезонной кухне.');}
+    if(!post){document.querySelector('[data-post-title]').textContent='Статья не найдена';document.querySelector('[data-post-description]').textContent='Возможно, адрес изменился. Другие истории ждут вас в журнале.';content.innerHTML=`<a class="button" href="${url('blog/')}">Вернуться в журнал</a>`;setMeta('Статья не найдена','Откройте журнал Розалии и выберите статью о сезонной кухне.');}
     else{
       setMeta(post.title,post.description);document.querySelector('[data-post-title]').textContent=post.title;document.querySelector('[data-post-description]').textContent=post.description;document.querySelector('[data-post-crumb]').textContent=post.title;document.querySelector('[data-post-category]').textContent=post.category;
       document.querySelector('[data-post-meta]').innerHTML=`<time datetime="${esc(post.date)}">${dateLabel(post.date+'T12:00:00+03:00')}</time><span aria-hidden="true">·</span><span>${readingTime(post.body)}</span>`;
