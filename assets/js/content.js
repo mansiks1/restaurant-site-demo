@@ -1,0 +1,44 @@
+import { load } from './vendor/js-yaml.mjs';
+import { marked } from './vendor/marked.esm.js';
+import DOMPurify from './vendor/purify.es.mjs';
+
+export const ROOT = new URL('../../', import.meta.url);
+export const url = path => new URL(String(path).replace(/^\/+/, ''), ROOT).href;
+export const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+export const money = value => `${new Intl.NumberFormat('ru-RU').format(Number(value) || 0)} ₽`;
+export const dateLabel = (value, options = {}) => new Intl.DateTimeFormat('ru-RU', {day:'numeric', month:'long', year:'numeric', timeZone:'Europe/Moscow', ...options}).format(new Date(value));
+export const moscowDay = value => new Intl.DateTimeFormat('en-CA', {timeZone:'Europe/Moscow', year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value));
+export const picture = (src, alt, cls = '', width = 960, height = 720) => `<figure class="image-frame ${esc(cls)}"><img src="${esc(imageUrl(src))}" alt="${esc(alt)}" width="${width}" height="${height}" loading="lazy" decoding="async"><figcaption class="image-label">${esc(alt)}</figcaption></figure>`;
+export function imageUrl(path) {
+  const clean = String(path || 'assets/img/interior.webp').replace(/^\/+/, '');
+  return clean.startsWith('assets/img/') && !clean.includes('..') ? url(clean) : url('assets/img/interior.webp');
+}
+export function markdown(text) {
+  const clean = DOMPurify.sanitize(marked.parse(String(text || ''), {breaks:false}), {USE_PROFILES:{html:true}, FORBID_TAGS:['style','form','iframe'], FORBID_ATTR:['style']});
+  const fragment = document.createElement('template'); fragment.innerHTML = clean;
+  fragment.content.querySelectorAll('img').forEach(img => { img.src=imageUrl(img.getAttribute('src')); img.loading='lazy'; img.decoding='async'; img.width=960; img.height=720; if(!img.alt)img.alt='Иллюстрация к материалу'; });
+  fragment.content.querySelectorAll('a').forEach(a => {
+    const href = a.getAttribute('href') || '';
+    if (/^(javascript|data|vbscript):/i.test(href)) a.removeAttribute('href');
+    else if (href.startsWith('/assets/')) a.href = url(href);
+  });
+  return fragment.innerHTML;
+}
+const cache = new Map();
+export async function json(path) { const response=await fetch(url(path)); if(!response.ok) throw Error(`Не удалось загрузить ${path}`); return response.json(); }
+export async function entry(path) {
+  const response=await fetch(url(path)); if(!response.ok) throw Error(`Не удалось загрузить ${path}`);
+  const source=await response.text(); const match=source.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)([\s\S]*)$/);
+  if(!match) throw Error('Неверный формат Markdown');
+  return {...load(match[1]), body:match[2], slug:path.split('/').pop().replace(/\.md$/, '')};
+}
+export async function entries(group) {
+  if(cache.has(group))return cache.get(group);
+  const task=(async()=>{
+    const manifest=await json('content/index.json');
+    const names=manifest[group] || [];
+    return Promise.all(names.map(name=>entry(`content/${group}/${name}.md`)));
+  })(); cache.set(group, task); return task;
+}
+export function showError(element, message='Не удалось загрузить содержимое. Обновите страницу или свяжитесь с рестораном через раздел «Контакты».') { element.innerHTML=`<p class="notice error-state" role="alert">${esc(message)}</p>`; }
+export function setMeta(title, description) { document.title=`${title} — РУНИКА`; document.querySelector('meta[name="description"]').content=description; }

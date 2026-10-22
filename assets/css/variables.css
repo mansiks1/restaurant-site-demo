@@ -1,0 +1,19 @@
+:root {
+  color-scheme: dark;
+  --color-bg: #151914; --color-surface: #1e241c; --color-raised: #292f24;
+  --color-text: #f0ebdf; --color-muted: #bdb6a7; --color-accent: #d7b584;
+  --color-accent-hover: #ebcd9f; --color-line: #454b3c; --color-soft-line: #30362b;
+  --color-light: #e7dfd0; --color-ink: #252a21; --color-danger: #f2b4a0;
+  --color-overlay: #11160fb8; --color-transparent: transparent;
+  --font-body: 'Manrope', sans-serif; --font-display: 'Cormorant Garamond', Georgia, serif;
+  --text-xs: .6875rem; --text-sm: .8125rem; --text-base: .9375rem;
+  --text-lg: 1.125rem; --text-xl: 1.375rem; --text-2xl: 1.75rem;
+  --text-title: clamp(3.25rem, 6.6vw, 6rem); --text-heading: clamp(2.5rem, 4.4vw, 4.2rem);
+  --s-1: .25rem; --s-2: .5rem; --s-3: .75rem; --s-4: 1rem; --s-5: 1.25rem;
+  --s-6: 1.5rem; --s-7: 2rem; --s-8: 2.5rem; --s-9: 3rem; --s-10: 4rem;
+  --s-11: 5rem; --s-12: 6rem; --s-13: 8rem;
+  --container: 1200px; --gutter: 32px; --header-height: 90px;
+  --radius: 2px; --radius-pill: 100px; --radius-round: 50%;
+  --shadow: 0 14px 48px #00000030; --focus: 0 0 0 3px #d7b584;
+  --transition: 180ms ease; --border: 1px solid var(--color-line);
+}
