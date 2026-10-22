@@ -40,16 +40,10 @@ for(const [group,names] of Object.entries(manifest)){
     check(item.title&&item.description,`${file}: title/description`);
     check(item.image?.endsWith('.webp')&&await exists(item.image),`${file}: local WebP image`);
     check(item.image_alt?.startsWith('Фото:'),`${file}: demo caption`);
-    if(group==='menu/dishes'){
-      check(categories.some(c=>c.id===item.category),`${file}: known category`);
-      check(Number.isInteger(item.price)&&item.price>=0,`${file}: valid price`);
-      check(typeof item.available==='boolean'&&Number.isFinite(item.order),`${file}: availability/order`);
-    }else{
-      check(Number.isFinite(Date.parse(item.date)),`${file}: valid date`);
-      check(item.body.trim().length>100,`${file}: useful text`);
-      if(group==='events'){check(/(Z|[+-]\d{2}:\d{2})$/.test(item.date),`${file}: explicit timezone`);check(Number.isInteger(item.price)&&item.price>=0,`${file}: price`);}
-      else check(/^\d{4}-\d{2}-\d{2}$/.test(item.date)&&item.category,`${file}: article metadata`);
-    }
+    check(Number.isFinite(Date.parse(item.date)),`${file}: valid date`);
+    check(item.body.trim().length>100,`${file}: useful text`);
+    if(group==='events'){check(/(Z|[+-]\d{2}:\d{2})$/.test(item.date),`${file}: explicit timezone`);check(Number.isInteger(item.price)&&item.price>=0,`${file}: price`);}
+    else check(/^\d{4}-\d{2}-\d{2}$/.test(item.date)&&item.category,`${file}: article metadata`);
   }
 }
 for(const file of ['home','about','contacts','gallery']){const item=await document(`content/pages/${file}.md`);check(item.title&&item.description,`${file}: page content`);}
@@ -87,6 +81,6 @@ for(const file of (await fs.readdir(path.join(root,'assets/img'))).filter(f=>f.e
 check(imageBytes<2500000,'Lightweight placeholder assets');
 function luminance(hex){const channels=hex.match(/\w\w/g).map(c=>parseInt(c,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return channels[0]*.2126+channels[1]*.7152+channels[2]*.0722;}
 const contrast=(a,b)=>{const x=luminance(a),y=luminance(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
-const pairs=[['text/background','f0ebdf','151914'],['muted/background','bdb6a7','151914'],['muted/raised','bdb6a7','292f24'],['accent/background','d7b584','151914'],['accent/raised','d7b584','292f24'],['button','252a21','d7b584'],['error/background','f2b4a0','151914']];
+const pairs=[['text/background','1f2430','ffffff'],['muted/background','62646b','ffffff'],['muted/raised','62646b','f1eee8'],['gold text/background','806034','ffffff'],['gold text/raised','806034','f1eee8'],['button','1f2430','c9a66b'],['error/background','a3322b','ffffff']];
 const contrasts=pairs.map(([pair,a,b])=>{const ratio=contrast(a,b);check(ratio>=4.5,`${pair}: contrast >=4.5`);return{pair,ratio:Number(ratio.toFixed(2))};});
 console.log(JSON.stringify({status:'passed',checks,htmlPages:html.length,staticLinks:links,dishes:dishes.length,events:manifest.events.length,posts:manifest.blog.length,imageKB:Math.round(imageBytes/1024),contrasts},null,2));

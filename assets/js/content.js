@@ -2,6 +2,8 @@ import { load, JSON_SCHEMA } from './vendor/js-yaml.mjs';
 import { marked } from './vendor/marked.esm.js';
 import DOMPurify from './vendor/purify.es.mjs';
 
+export const contacts = { email: 'hello@rosalia.example', phone: '+7 (000) 000-00-00', address: 'Москва, ул. Лесная, 12', demo: true };
+
 export const ROOT = new URL('../../', import.meta.url);
 export const url = path => new URL(String(path).replace(/^\/+/, ''), ROOT).href;
 export const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

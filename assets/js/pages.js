@@ -2,7 +2,7 @@ import { entry, esc, picture, markdown, imageUrl, showError, setMeta } from './c
 const name=document.body.dataset.page;
 try{
   const page=await entry(`content/pages/${name}.md`);
-  document.querySelector('.page-heading h1').textContent=page.title;
+  document.querySelector('[data-page-title]').textContent=page.title;
   document.querySelector('.page-intro').textContent=page.description;
   setMeta(name==='about'?'О ресторане':name==='contacts'?'Контакты и бронирование':'Галерея',page.description);
   document.querySelector('[data-page-body]').innerHTML=markdown(page.body);
