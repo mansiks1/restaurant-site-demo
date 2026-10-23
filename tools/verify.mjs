@@ -40,7 +40,7 @@ for(const [group,names] of Object.entries(manifest)){
     const file=`content/${group}/${name}.md`,item=await document(file);documents[group].push(item);
     check(item.title&&item.description,`${file}: title/description`);
     check(item.image?.endsWith('.webp')&&await exists(item.image),`${file}: local WebP image`);
-    check(item.image_alt?.startsWith('Фото:'),`${file}: demo caption`);
+    check(/^Фото:|ИИ-визуализация/.test(item.image_alt||''),`${file}: demo image or AI caption`);
     check(Number.isFinite(Date.parse(item.date)),`${file}: valid date`);
     check(item.body.trim().length>100,`${file}: useful text`);
     if(group==='events'){check(/(Z|[+-]\d{2}:\d{2})$/.test(item.date),`${file}: explicit timezone`);check(Number.isInteger(item.price)&&item.price>=0,`${file}: price`);}
