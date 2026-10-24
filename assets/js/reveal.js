@@ -14,18 +14,15 @@ export function initReveal(root = document.querySelector('main')) {
   let headerInset = visibilityInset();
   function observeVisibility(entries) {
     for (const entry of entries) {
-      const target = entry.target;
-      const state = states.get(target);
+      const state = states.get(entry.target);
       if (!state) continue;
       state.inView = entry.isIntersecting;
-      // Restore the photograph timing used before the unified module. Large
-      // groups only coordinate their children and need no percentage threshold.
-      if (entry.isIntersecting && (state.group || entry.intersectionRatio >= 0.12)) show(target, state);
-      else if (!entry.isIntersecting) reset(target, state);
+      if (entry.isIntersecting) show(entry.target, state);
+      else reset(entry.target, state);
     }
   }
   const createObserver = () => supportsObserver ? new IntersectionObserver(observeVisibility,
-    { threshold: [0, 0.12], rootMargin: `-${headerInset}px 0px 0px 0px` }) : null;
+    { threshold: 0, rootMargin: `-${headerInset}px 0px -32px 0px` }) : null;
   let observer = createObserver();
 
   function finish(target, state, run) {
@@ -54,28 +51,17 @@ export function initReveal(root = document.querySelector('main')) {
     requestAnimationFrame(() => requestAnimationFrame(() => finish(target, state, run)));
   }
 
-  function registerTarget(target, group = Boolean(target.querySelector('[data-reveal]'))) {
-    if (states.has(target) || target.closest('dialog')) return;
-    target.classList.add('reveal');
-    target.classList.toggle('reveal-group', group);
-    const state = { phase: 'hidden', run: 0, inView: false, group };
-    states.set(target, state);
-    if (motion.matches || !observer) finish(target, state, state.run);
-    else observer.observe(target);
-  }
-
   function register(node) {
     if (!(node instanceof Element)) return;
     const targets = [...(node.matches('[data-reveal]') ? [node] : []), ...node.querySelectorAll('[data-reveal]')];
     for (const target of targets) {
-      // A photo and its description leave the viewport at different times.
-      // Split their animation here; renderers still need only data-reveal.
-      const card = target.querySelector(':scope > .image-frame') && !target.querySelector('[data-reveal]');
-      if (card) {
-        target.classList.add('reveal-card');
-        registerTarget(target, true);
-        for (const child of target.children) registerTarget(child);
-      } else registerTarget(target);
+      if (states.has(target) || target.closest('dialog')) continue;
+      target.classList.add('reveal');
+      target.classList.toggle('reveal-group', Boolean(target.querySelector('[data-reveal]')));
+      const state = { phase: 'hidden', run: 0, inView: false };
+      states.set(target, state);
+      if (motion.matches || !observer) finish(target, state, state.run);
+      else observer.observe(target);
     }
   }
 
@@ -120,7 +106,10 @@ export function initReveal(root = document.querySelector('main')) {
     }
   }
   function focusIn(event) {
-    for (const [target, state] of states) if (target.contains(event.target)) finish(target, state, ++state.run);
+    for (let target = event.target.closest('[data-reveal]'); target; target = target.parentElement?.closest('[data-reveal]')) {
+      const state = states.get(target);
+      if (state) finish(target, state, ++state.run);
+    }
   }
   function focusOut() {
     requestAnimationFrame(() => {

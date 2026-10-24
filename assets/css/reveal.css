@@ -12,9 +12,6 @@
 /* Keep observed boxes stable; move content only once, inside leaf targets. */
 .reveal:not(.reveal-group) > * { translate: 0 var(--reveal-distance); }
 .reveal.is-visible:not(.reveal-group) > * { translate: 0; transition: translate var(--reveal-duration) ease, transform 600ms ease; }
-/* The card is a neutral scope. Its photo and copy replay independently, so
-   resetting an offscreen photo never hides a description still being read. */
-.reveal.reveal-card { opacity: 1; transition: none; }
 
 @media (prefers-reduced-motion: reduce) {
   [data-reveal], .reveal { opacity: 1; animation: none !important; transition: none !important; }
