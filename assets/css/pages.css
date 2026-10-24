@@ -220,9 +220,6 @@
 #menu-sentinel { height: 1px; width: 100%; }
 .menu-pagination { display: grid; justify-items: center; gap: var(--s-4); padding-block: var(--s-6); }
 .menu-pagination p { font-size: var(--text-sm); color: var(--color-muted); }
-.reveal { opacity: 0; transform: translateY(var(--reveal-distance)); transition: opacity var(--reveal-duration) ease, transform var(--reveal-duration) ease; }
-.reveal.is-visible { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 
 
 /* Light editorial introductions, shared by every internal page. */

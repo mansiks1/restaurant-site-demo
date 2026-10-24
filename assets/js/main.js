@@ -1,5 +1,8 @@
 import { url, esc, entries, entry, money, dateLabel, contacts } from './content.js';
 import { loadDishes } from './menu-data.js';
+import { startImageReveals } from './reveal.js';
+
+startImageReveals(document.querySelector('main'));
 
 const brand = `<a class="brand" href="${url('')}" aria-label="Розалия — на главную"><span class="brand-name">Розалия</span></a>`;
 const active = document.body.dataset.page;

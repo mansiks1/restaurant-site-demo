@@ -30,6 +30,9 @@
 .section-top .eyebrow { margin-bottom: var(--s-4); }
 .section-copy { max-width: 380px; color: var(--color-muted); }
 .image-frame { position: relative; overflow: hidden; background: var(--color-surface); }
+.reveal { opacity: 0; transform: translateY(var(--reveal-distance)); }
+.reveal.is-visible { opacity: 1; transform: none; transition: opacity var(--reveal-duration) ease, transform var(--reveal-duration) ease; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
 .image-frame img { width: 100%; transition: transform 600ms ease; }
 .image-label { position: absolute; bottom: var(--s-4); left: var(--s-4); right: var(--s-4); width: fit-content; max-width: calc(100% - var(--s-7)); padding: var(--s-2) var(--s-3); color: var(--color-white); background: var(--color-overlay); font-size: var(--text-xs); letter-spacing: .02em; }
 .card:hover .image-frame img { transform: scale(1.025); }
