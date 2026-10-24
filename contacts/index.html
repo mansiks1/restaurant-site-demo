@@ -3,6 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    if (typeof IntersectionObserver === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('image-reveal-pending');
+      setTimeout(() => document.documentElement.classList.remove('image-reveal-pending'), 3000);
+    }
+  </script>
   <title>Контакты и бронирование — Розалия</title>
   <meta name="description" content="Адрес, часы работы и контакты демонстрационного ресторана Розалия. Информация для бронирования столов.">
   <link rel="canonical" href="https://mansiks1.github.io/restaurant-site-demo/contacts/">

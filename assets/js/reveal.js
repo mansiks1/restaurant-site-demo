@@ -1,6 +1,9 @@
 // Reuse the menu's reveal effect for static and CMS-rendered photographs.
 export function startImageReveals(root) {
-  if (!root || typeof IntersectionObserver === 'undefined') return;
+  if (!root || typeof IntersectionObserver === 'undefined') {
+    document.documentElement.classList.remove('image-reveal-pending');
+    return;
+  }
 
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const pending = new Map();
@@ -46,6 +49,7 @@ export function startImageReveals(root) {
   }
 
   register(root);
+  document.documentElement.classList.remove('image-reveal-pending');
   // Lists and filters replace their content after fetching CMS data.
   const mutations = new MutationObserver(records => {
     for (const [target] of pending) {

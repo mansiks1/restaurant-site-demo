@@ -3,6 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    if (typeof IntersectionObserver === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('image-reveal-pending');
+      setTimeout(() => document.documentElement.classList.remove('image-reveal-pending'), 3000);
+    }
+  </script>
   <title>Меню — Розалия</title>
   <meta name="description" content="Сезонное меню Розалии: закуски, горячие блюда, десерты и напитки. Поиск по названию и актуальные цены.">
   <link rel="canonical" href="https://mansiks1.github.io/restaurant-site-demo/menu/">

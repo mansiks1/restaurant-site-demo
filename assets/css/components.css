@@ -30,6 +30,9 @@
 .section-top .eyebrow { margin-bottom: var(--s-4); }
 .section-copy { max-width: 380px; color: var(--color-muted); }
 .image-frame { position: relative; overflow: hidden; background: var(--color-surface); }
+@media (prefers-reduced-motion: no-preference) {
+  :where(.image-reveal-pending) main :where(.image-frame, .gallery-button) { opacity: 0; transform: translateY(var(--reveal-distance)); }
+}
 .reveal { opacity: 0; transform: translateY(var(--reveal-distance)); }
 .reveal.is-visible { opacity: 1; transform: none; transition: opacity var(--reveal-duration) ease, transform var(--reveal-duration) ease; }
 @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }

@@ -3,6 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    if (typeof IntersectionObserver === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('image-reveal-pending');
+      setTimeout(() => document.documentElement.classList.remove('image-reveal-pending'), 3000);
+    }
+  </script>
   <title>Галерея — Розалия</title>
   <meta name="description" content="Атмосфера Розалии в деталях: зал, сервировка и сезонные блюда. Галерея с подписанными изображениями-заглушками.">
   <link rel="canonical" href="https://mansiks1.github.io/restaurant-site-demo/gallery/">
