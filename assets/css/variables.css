@@ -29,4 +29,5 @@
   --radius: 6px; --radius-image: 12px; --radius-pill: 100px; --radius-round: 50%;
   --shadow: 0 14px 48px #26382E12; --focus: 0 0 0 3px #874F59;
   --transition: 180ms ease; --border: 1px solid var(--color-line);
+  --reveal-distance: 18px; --reveal-duration: 450ms;
 }

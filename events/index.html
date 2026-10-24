@@ -3,6 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    if (typeof IntersectionObserver === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('image-reveal-pending');
+      setTimeout(() => document.documentElement.classList.remove('image-reveal-pending'), 3000);
+    }
+  </script>
   <title>События и календарь — Розалия</title>
   <meta name="description" content="Афиша Розалии: камерные концерты, гастрономические ужины и дегустации. Ближайшие и прошедшие события, календарь встреч.">
   <link rel="canonical" href="https://mansiks1.github.io/restaurant-site-demo/events/">
@@ -22,15 +28,13 @@
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/pages.css">
-  <link rel="stylesheet" href="../assets/css/reveal.css">
-  <script type="module" src="../assets/js/reveal.js"></script>
   <script type="module" src="../assets/js/main.js"></script>
   <script type="module" src="../assets/js/events.js"></script>
 </head>
 <body data-page="events">
   <a class="skip-link" href="#main">Перейти к содержимому</a>
   <header class="site-header" data-site-header></header>
-  <main id="main"><section class="page-heading page-hero"><div class="container page-hero-layout"><div class="page-hero-copy"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">События</span></nav><p class="eyebrow">Поводы быть вместе</p><h1 data-reveal>Календарь событий</h1><div class="page-hero-intro"><p class="page-intro">Музыка, еда и люди, с которыми хочется разделить вечер. Выбирайте событие и приходите.</p></div></div><figure class="image-frame page-hero-media" data-reveal><img class="page-hero-image" src="../assets/img/home-hero.webp" alt="Вечер в бистро · ИИ-визуализация" width="1122" height="1402" loading="lazy" decoding="async"><figcaption class="image-label">ИИ-визуализация</figcaption></figure></div></section>
+  <main id="main"><section class="page-heading page-hero"><div class="container page-hero-layout"><div class="page-hero-copy"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">События</span></nav><p class="eyebrow">Поводы быть вместе</p><h1>Календарь событий</h1><div class="page-hero-intro"><p class="page-intro">Музыка, еда и люди, с которыми хочется разделить вечер. Выбирайте событие и приходите.</p></div></div><figure class="image-frame page-hero-media"><img class="page-hero-image" src="../assets/img/home-hero.webp" alt="Вечер в бистро · ИИ-визуализация" width="1122" height="1402" loading="lazy" decoding="async"><figcaption class="image-label">ИИ-визуализация</figcaption></figure></div></section>
 <section class="container events-layout"><div><div class="filter-bar" role="group" aria-label="Период событий"><button class="filter-button" data-period="upcoming" aria-pressed="true">Ближайшие</button><button class="filter-button" data-period="past" aria-pressed="false">Прошедшие</button></div><div class="events-selection"><p data-events-count role="status">Загружаем афишу…</p><button class="clear-filter" data-clear-date hidden>Сбросить дату ×</button></div><div class="events-grid" data-events-list></div></div><aside class="calendar-panel" aria-label="Календарь событий"><p class="eyebrow">Запланируем встречу</p><div data-calendar></div><p class="calendar-legend"><span aria-hidden="true">●</span> В этот день есть событие</p><p class="calendar-help">Выберите отмеченный день, чтобы увидеть все встречи.</p></aside></section></main>
   <footer class="site-footer" data-site-footer></footer>
   <noscript><p class="container notice">Для загрузки меню, афиши и статей включите JavaScript. Все контакты доступны на странице «Контакты».</p></noscript>

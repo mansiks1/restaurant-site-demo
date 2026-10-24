@@ -3,6 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    if (typeof IntersectionObserver === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('image-reveal-pending');
+      setTimeout(() => document.documentElement.classList.remove('image-reveal-pending'), 3000);
+    }
+  </script>
   <title>Событие — Розалия</title>
   <meta name="description" content="Подробности события в Розалии: программа, дата, время и стоимость участия. Бронирование стола через контакты.">
   <link rel="canonical" href="https://mansiks1.github.io/restaurant-site-demo/events/event.html">
@@ -22,15 +28,13 @@
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/pages.css">
-  <link rel="stylesheet" href="../assets/css/reveal.css">
-  <script type="module" src="../assets/js/reveal.js"></script>
   <script type="module" src="../assets/js/main.js"></script>
   <script type="module" src="../assets/js/events.js"></script>
 </head>
 <body data-page="events">
   <a class="skip-link" href="#main">Перейти к содержимому</a>
   <header class="site-header" data-site-header></header>
-  <main id="main"><section class="page-heading page-hero"><div class="container page-hero-layout"><div class="page-hero-copy"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><a href="./">События</a><span aria-hidden="true">/</span><span aria-current="page" data-detail-crumb>Событие</span></nav><p class="eyebrow" data-event-kind>Афиша ресторана</p><h1 data-detail-title data-reveal>Событие в Розалии</h1><div class="page-hero-intro"><p class="page-intro" data-detail-intro>Загружаем подробности встречи…</p></div></div><figure class="image-frame page-hero-media" data-reveal><img class="page-hero-image" src="../assets/img/home-hero.webp" alt="Вечер в бистро · ИИ-визуализация" width="1122" height="1402" loading="lazy" decoding="async"><figcaption class="image-label">ИИ-визуализация</figcaption></figure></div></section><section class="container detail-layout" data-event-detail></section></main>
+  <main id="main"><section class="page-heading page-hero"><div class="container page-hero-layout"><div class="page-hero-copy"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><a href="./">События</a><span aria-hidden="true">/</span><span aria-current="page" data-detail-crumb>Событие</span></nav><p class="eyebrow" data-event-kind>Афиша ресторана</p><h1 data-detail-title>Событие в Розалии</h1><div class="page-hero-intro"><p class="page-intro" data-detail-intro>Загружаем подробности встречи…</p></div></div><figure class="image-frame page-hero-media"><img class="page-hero-image" src="../assets/img/home-hero.webp" alt="Вечер в бистро · ИИ-визуализация" width="1122" height="1402" loading="lazy" decoding="async"><figcaption class="image-label">ИИ-визуализация</figcaption></figure></div></section><section class="container detail-layout" data-event-detail></section></main>
   <footer class="site-footer" data-site-footer></footer>
   <noscript><p class="container notice">Для загрузки меню, афиши и статей включите JavaScript. Все контакты доступны на странице «Контакты».</p></noscript>
 </body>

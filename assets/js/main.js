@@ -1,5 +1,8 @@
 import { url, esc, entries, entry, money, dateLabel, contacts } from './content.js';
 import { loadDishes } from './menu-data.js';
+import { startImageReveals } from './reveal.js';
+
+startImageReveals(document.querySelector('main'));
 
 const brand = `<a class="brand" href="${url('')}" aria-label="Розалия — на главную"><span class="brand-name">Розалия</span></a>`;
 const active = document.body.dataset.page;
@@ -38,7 +41,7 @@ if(active==='home'){
     const selection = available.filter(d=>d.chef_choice === true);
     for(const dish of (selection.length ? selection : available).slice(0,3)){
       const article=document.createElement('article');article.className='card';
-      const figure=document.createElement('figure');figure.className='image-frame';figure.dataset.reveal='';const img=document.createElement('img');img.src=new URL('../../'+dish.image,import.meta.url);img.alt=dish.image_alt;img.width=960;img.height=720;img.loading='lazy';const caption=document.createElement('figcaption');caption.className='image-label';caption.textContent=dish.image_alt;figure.append(img,caption);
+      const figure=document.createElement('figure');figure.className='image-frame';const img=document.createElement('img');img.src=new URL('../../'+dish.image,import.meta.url);img.alt=dish.image_alt;img.width=960;img.height=720;img.loading='lazy';const caption=document.createElement('figcaption');caption.className='image-label';caption.textContent=dish.image_alt;figure.append(img,caption);
       const body=document.createElement('div');body.className='card-content';const row=document.createElement('div');row.className='home-dish-footer';const h3=document.createElement('h3');const link=document.createElement('a');link.href=url('menu/#'+encodeURIComponent(dish.category));link.textContent=dish.title;h3.append(link);const price=document.createElement('span');price.className='price';price.textContent=money(dish.price);row.append(h3,price);const description=document.createElement('p');description.textContent=dish.description;body.append(row,description);article.append(figure,body);target.append(article);
     }
   }).catch(()=>{document.querySelector('[data-home-dishes]').innerHTML='<p class="notice">Меню временно недоступно. Откройте раздел «Меню» или попробуйте позже.</p>';});

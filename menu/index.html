@@ -3,6 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    if (typeof IntersectionObserver === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('image-reveal-pending');
+      setTimeout(() => document.documentElement.classList.remove('image-reveal-pending'), 3000);
+    }
+  </script>
   <title>Меню — Розалия</title>
   <meta name="description" content="Сезонное меню Розалии: закуски, горячие блюда, десерты и напитки. Поиск по названию и актуальные цены.">
   <link rel="canonical" href="https://mansiks1.github.io/restaurant-site-demo/menu/">
@@ -22,17 +28,15 @@
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/pages.css">
-  <link rel="stylesheet" href="../assets/css/reveal.css">
-  <script type="module" src="../assets/js/reveal.js"></script>
   <script type="module" src="../assets/js/main.js"></script>
   <script type="module" src="../assets/js/menu.js"></script>
 </head>
 <body data-page="menu">
   <a class="skip-link" href="#main">Перейти к содержимому</a>
   <header class="site-header" data-site-header></header>
-  <main id="main"><section class="page-heading page-hero"><div class="container page-hero-layout"><div class="page-hero-copy"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Меню</span></nav><p class="eyebrow">Сезон за столом</p><h1 data-reveal>Меню</h1><div class="page-hero-intro"><p class="page-intro">Знакомые продукты, неожиданные сочетания. Готовим бережно, подаём с удовольствием.</p></div></div><figure class="image-frame page-hero-media" data-reveal><img class="page-hero-image" src="../assets/img/dish-truffle-pasta.webp" alt="Паста с трюфелем · ИИ-визуализация" width="960" height="720" loading="lazy" decoding="async"><figcaption class="image-label">ИИ-визуализация</figcaption></figure></div></section>
+  <main id="main"><section class="page-heading page-hero"><div class="container page-hero-layout"><div class="page-hero-copy"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Меню</span></nav><p class="eyebrow">Сезон за столом</p><h1>Меню</h1><div class="page-hero-intro"><p class="page-intro">Знакомые продукты, неожиданные сочетания. Готовим бережно, подаём с удовольствием.</p></div></div><figure class="image-frame page-hero-media"><img class="page-hero-image" src="../assets/img/dish-truffle-pasta.webp" alt="Паста с трюфелем · ИИ-визуализация" width="960" height="720" loading="lazy" decoding="async"><figcaption class="image-label">ИИ-визуализация</figcaption></figure></div></section>
 <div class="menu-toolbar"><div class="container toolbar-inner"><nav class="category-nav" aria-label="Категории меню" data-categories></nav><div class="search-field"><label class="sr-only" for="dish-search">Поиск по названию блюда</label><span aria-hidden="true">⌕</span><input id="dish-search" type="search" placeholder="Найти блюдо" autocomplete="off"></div></div></div>
-<section class="chef-picks" data-reveal data-chef-section aria-labelledby="chef-heading" hidden><div class="container"><div class="section-top"><div><p class="eyebrow">С чего начать знакомство</p><h2 id="chef-heading" data-reveal>Выбор шефа</h2></div><p class="section-copy">Три блюда, в которых — настроение нашей кухни.</p></div><div class="chef-grid" data-chef-picks></div></div></section>
+<section class="chef-picks" data-chef-section aria-labelledby="chef-heading" hidden><div class="container"><div class="section-top"><div><p class="eyebrow">С чего начать знакомство</p><h2 id="chef-heading">Выбор шефа</h2></div><p class="section-copy">Три блюда, в которых — настроение нашей кухни.</p></div><div class="chef-grid" data-chef-picks></div></div></section>
 <section class="container menu-content"><div class="menu-caption"><p>Осень — зима / 2026</p><p data-menu-count role="status">Загружаем меню…</p></div><div data-menu-sections aria-busy="false"></div><div id="menu-sentinel" aria-hidden="true" hidden></div><div class="menu-pagination"><p data-menu-progress role="status"></p><button class="button button-ghost" type="button" data-menu-more hidden>Показать ещё</button></div><p class="menu-disclaimer">Цены указаны в рублях. Если у вас есть пищевая аллергия, сообщите об этом перед заказом. Меню и цены демонстрационные.</p></section></main>
   <footer class="site-footer" data-site-footer></footer>
   <noscript><p class="container notice">Для загрузки меню, афиши и статей включите JavaScript. Все контакты доступны на странице «Контакты».</p></noscript>

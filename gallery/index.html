@@ -3,6 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    if (typeof IntersectionObserver === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('image-reveal-pending');
+      setTimeout(() => document.documentElement.classList.remove('image-reveal-pending'), 3000);
+    }
+  </script>
   <title>Галерея — Розалия</title>
   <meta name="description" content="Атмосфера Розалии в деталях: зал, сервировка и сезонные блюда. Галерея с подписанными изображениями-заглушками.">
   <link rel="canonical" href="https://mansiks1.github.io/restaurant-site-demo/gallery/">
@@ -22,15 +28,13 @@
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/pages.css">
-  <link rel="stylesheet" href="../assets/css/reveal.css">
-  <script type="module" src="../assets/js/reveal.js"></script>
   <script type="module" src="../assets/js/main.js"></script>
   <script type="module" src="../assets/js/pages.js"></script>
 </head>
 <body data-page="gallery">
   <a class="skip-link" href="#main">Перейти к содержимому</a>
   <header class="site-header" data-site-header></header>
-  <main id="main"><section class="page-heading page-hero"><div class="container page-hero-layout"><div class="page-hero-copy"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Галерея</span></nav><p class="eyebrow">Взгляд изнутри</p><h1 data-reveal>Галерея</h1><div class="page-hero-intro"><h2 data-page-title data-reveal>Детали, в которыхживёт атмосфера.</h2><p class="page-intro">Немного света, цвета и вкуса. Так мы представляем место для ваших будущих встреч.</p></div></div><figure class="image-frame page-hero-media" data-reveal><img class="page-hero-image" src="../assets/img/home-hero.webp" alt="Детали бистро · ИИ-визуализация" width="1122" height="1402" loading="lazy" decoding="async"><figcaption class="image-label">ИИ-визуализация</figcaption></figure></div></section><section class="container"><div class="prose gallery-intro" data-page-body></div><div class="gallery-grid" data-gallery></div></section><dialog class="lightbox" aria-label="Просмотр изображения"><button class="lightbox-close" aria-label="Закрыть изображение">×</button><img src="../assets/img/interior.webp" alt="Фото: зал ресторана, заглушка" width="1200" height="960" loading="lazy"><p data-lightbox-caption></p></dialog></main>
+  <main id="main"><section class="page-heading page-hero"><div class="container page-hero-layout"><div class="page-hero-copy"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Галерея</span></nav><p class="eyebrow">Взгляд изнутри</p><h1>Галерея</h1><div class="page-hero-intro"><h2 data-page-title>Детали, в которыхживёт атмосфера.</h2><p class="page-intro">Немного света, цвета и вкуса. Так мы представляем место для ваших будущих встреч.</p></div></div><figure class="image-frame page-hero-media"><img class="page-hero-image" src="../assets/img/home-hero.webp" alt="Детали бистро · ИИ-визуализация" width="1122" height="1402" loading="lazy" decoding="async"><figcaption class="image-label">ИИ-визуализация</figcaption></figure></div></section><section class="container"><div class="prose gallery-intro" data-page-body></div><div class="gallery-grid" data-gallery></div></section><dialog class="lightbox" aria-label="Просмотр изображения"><button class="lightbox-close" aria-label="Закрыть изображение">×</button><img src="../assets/img/interior.webp" alt="Фото: зал ресторана, заглушка" width="1200" height="960" loading="lazy"><p data-lightbox-caption></p></dialog></main>
   <footer class="site-footer" data-site-footer></footer>
   <noscript><p class="container notice">Для загрузки меню, афиши и статей включите JavaScript. Все контакты доступны на странице «Контакты».</p></noscript>
 </body>
