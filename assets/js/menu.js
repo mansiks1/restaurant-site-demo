@@ -47,11 +47,10 @@ export function mountMenu({ categories, dishes }, root = document) {
 
   const revealObserver = supportsObservers ? new IntersectionObserver(entries => {
     for (const entry of entries) {
-      if (!entry.isIntersecting) continue;
-      entry.target.classList.add('is-visible');
-      revealObserver.unobserve(entry.target);
+      if (reducedMotion.matches || (entry.isIntersecting && entry.intersectionRatio >= 0.12)) entry.target.classList.add('is-visible');
+      else if (!entry.isIntersecting && !entry.target.contains(document.activeElement)) entry.target.classList.remove('is-visible');
     }
-  }, { threshold: 0.12 }) : null;
+  }, { threshold: [0, 0.12] }) : null;
 
   const batchObserver = supportsObservers ? new IntersectionObserver(entries => {
     if (entries.some(entry => entry.isIntersecting)) appendBatch();
@@ -116,8 +115,11 @@ export function mountMenu({ categories, dishes }, root = document) {
     history.replaceState(null, '', `#${encodeURIComponent(id)}`); ensureCategory(id);
   }
   function reduceMotion(event) {
-    if (!event.matches) return;
-    revealObserver?.disconnect(); content.querySelectorAll('.reveal').forEach(card => card.classList.add('is-visible'));
+    revealObserver?.disconnect();
+    content.querySelectorAll('.reveal').forEach(card => {
+      if (event.matches) card.classList.add('is-visible');
+      else revealObserver?.observe(card);
+    });
   }
   if (chefGrid) {
     chefGrid.replaceChildren();
