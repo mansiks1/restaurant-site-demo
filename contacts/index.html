@@ -3,12 +3,6 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script>
-    if (typeof IntersectionObserver === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.documentElement.classList.add('image-reveal-pending');
-      setTimeout(() => document.documentElement.classList.remove('image-reveal-pending'), 3000);
-    }
-  </script>
   <title>Контакты и бронирование — Розалия</title>
   <meta name="description" content="Адрес, часы работы и контакты демонстрационного ресторана Розалия. Информация для бронирования столов.">
   <link rel="canonical" href="https://mansiks1.github.io/restaurant-site-demo/contacts/">
@@ -28,13 +22,15 @@
   <link rel="stylesheet" href="../assets/css/base.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/pages.css">
+  <link rel="stylesheet" href="../assets/css/reveal.css">
+  <script type="module" src="../assets/js/reveal.js"></script>
   <script type="module" src="../assets/js/main.js"></script>
   <script type="module" src="../assets/js/pages.js"></script>
 </head>
 <body data-page="contacts">
   <a class="skip-link" href="#main">Перейти к содержимому</a>
   <header class="site-header" data-site-header></header>
-  <main id="main"><section class="page-heading page-hero"><div class="container page-hero-layout"><div class="page-hero-copy"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Контакты</span></nav><p class="eyebrow">Будем рады знакомству</p><h1>Контакты</h1><div class="page-hero-intro"><h2 data-page-title>Начнём с хорошего вечера.</h2><p class="page-intro">Расскажите, когда планируете прийти и сколько вас будет. Для вашего вечера найдётся место.</p></div></div><figure class="image-frame page-hero-media"><img class="page-hero-image" src="../assets/img/home-interior.webp" alt="Интерьер бистро · ИИ-визуализация" width="1200" height="960" loading="lazy" decoding="async"><figcaption class="image-label">ИИ-визуализация</figcaption></figure></div></section><section class="container contacts-layout"><div><div class="contact-item" data-reveal><p class="eyebrow">Где нас найти</p><p class="contact-big" data-contact-address>Москва, ул. Лесная, 12</p><p class="muted">Демонстрационный адрес</p></div><div class="contact-item" data-reveal><p class="eyebrow">Когда заглянуть</p><p data-contact-hours>Вс–чт 12:00–23:00; пт–сб 12:00–00:00</p></div><div class="contact-item" data-reveal id="booking"><p class="eyebrow">Бронирование столов</p><p class="contact-big" data-contact-phone>+7 (000) 000-00-00</p><p data-contact-email>hello@rosalia.example</p><p class="demo-note">Демонстрационные контакты — заявки и звонки не принимаются.</p></div></div><div class="map-placeholder" data-reveal role="img" aria-label="Карта — демонстрационная заглушка, без реального местоположения"><div class="map-lines" aria-hidden="true"></div><div class="map-center"><span class="map-pin" aria-hidden="true">✳</span><h2>Карта</h2><p>Здесь появится маршрут к ресторану</p><span class="tag">Демонстрационная заглушка</span></div></div></section><section class="container section"><div class="prose" data-page-body></div></section></main>
+  <main id="main"><section class="page-heading page-hero"><div class="container page-hero-layout"><div class="page-hero-copy"><nav class="breadcrumbs" aria-label="Хлебные крошки"><a href="../">Главная</a><span aria-hidden="true">/</span><span aria-current="page">Контакты</span></nav><p class="eyebrow">Будем рады знакомству</p><h1 data-reveal>Контакты</h1><div class="page-hero-intro"><h2 data-page-title data-reveal>Начнём с хорошего вечера.</h2><p class="page-intro">Расскажите, когда планируете прийти и сколько вас будет. Для вашего вечера найдётся место.</p></div></div><figure class="image-frame page-hero-media" data-reveal><img class="page-hero-image" src="../assets/img/home-interior.webp" alt="Интерьер бистро · ИИ-визуализация" width="1200" height="960" loading="lazy" decoding="async"><figcaption class="image-label">ИИ-визуализация</figcaption></figure></div></section><section class="container contacts-layout"><div><div class="contact-item" data-reveal><p class="eyebrow">Где нас найти</p><p class="contact-big" data-contact-address>Москва, ул. Лесная, 12</p><p class="muted">Демонстрационный адрес</p></div><div class="contact-item" data-reveal><p class="eyebrow">Когда заглянуть</p><p data-contact-hours>Вс–чт 12:00–23:00; пт–сб 12:00–00:00</p></div><div class="contact-item" data-reveal id="booking"><p class="eyebrow">Бронирование столов</p><p class="contact-big" data-contact-phone>+7 (000) 000-00-00</p><p data-contact-email>hello@rosalia.example</p><p class="demo-note">Демонстрационные контакты — заявки и звонки не принимаются.</p></div></div><div class="map-placeholder" data-reveal role="img" aria-label="Карта — демонстрационная заглушка, без реального местоположения"><div class="map-lines" aria-hidden="true"></div><div class="map-center"><span class="map-pin" aria-hidden="true">✳</span><h2>Карта</h2><p>Здесь появится маршрут к ресторану</p><span class="tag">Демонстрационная заглушка</span></div></div></section><section class="container section"><div class="prose" data-page-body></div></section></main>
   <footer class="site-footer" data-site-footer></footer>
   <noscript><p class="container notice">Для загрузки меню, афиши и статей включите JavaScript. Все контакты доступны на странице «Контакты».</p></noscript>
 </body>

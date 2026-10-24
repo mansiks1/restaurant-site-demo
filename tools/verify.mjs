@@ -29,7 +29,15 @@ for(const item of dishes){
 check(!await exists('content/menu/dishes'),'Obsolete Markdown dishes removed');
 const menuSource=await read('assets/js/menu.js');
 check(!menuSource.includes('innerHTML'),'Menu content uses DOM textContent');
-check(menuSource.includes("rootMargin: '200px'"),'Sentinel observer margin');
+const revealSource=await read('assets/js/reveal.js');
+check(revealSource.includes("rootMargin: '200px'"),'Sentinel observer margin');
+check(!/IntersectionObserver|is-visible|revealObserver|batchObserver/.test(menuSource),'Menu delegates all visibility logic');
+for(const file of (await fs.readdir(path.join(root,'assets/js'))).filter(name=>name.endsWith('.js')&&name!=='reveal.js')){
+  check(!/IntersectionObserver|is-visible/.test(await read('assets/js/'+file)),`${file}: no visibility implementation outside reveal.js`);
+}
+for(const file of (await fs.readdir(path.join(root,'assets/css'))).filter(name=>name.endsWith('.css')&&name!=='reveal.css')){
+  check(!/\.reveal\b|is-visible|--reveal-/.test(await read('assets/css/'+file)),`${file}: no reveal styles outside reveal.css`);
+}
 const documents={};
 for(const [group,names] of Object.entries(manifest)){
   const actual=(await fs.readdir(path.join(root,'content',group))).filter(f=>f.endsWith('.md')).map(f=>f.slice(0,-3)).sort();
@@ -52,6 +60,10 @@ const html=['index.html','menu/index.html','events/index.html','events/event.htm
 const titles=new Set();let links=0;
 for(const file of html){
   const source=await read(file);const admin=file.startsWith('admin/');
+  if(!admin){
+    check(!/IntersectionObserver|is-visible|image-reveal-pending/.test(source),`${file}: declarative reveal markup only`);
+    check(source.includes('assets/css/reveal.css')&&source.includes('assets/js/reveal.js'),`${file}: shared reveal assets`);
+  }
   check((source.match(/<h1\b/g)||[]).length===1,`${file}: exactly one h1`);
   const title=source.match(/<title>(.*?)<\/title>/)?.[1];check(title&&!titles.has(title),`${file}: unique title`);titles.add(title);
   check(/<html lang="ru">/.test(source)&&/<meta name="description" content="[^"]+">/.test(source),`${file}: language/description`);

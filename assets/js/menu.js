@@ -11,7 +11,8 @@ const element = (tag, className, text) => {
 };
 
 export function createDishCard(dish) {
-  const card = element('article', `dish-card reveal${dish.available ? '' : ' dish-unavailable'}`);
+  const card = element('article', `dish-card${dish.available ? '' : ' dish-unavailable'}`);
+  card.dataset.reveal = '';
   const figure = element('figure', 'image-frame');
   const image = element('img');
   image.src = imageUrl(dish.image);
@@ -40,24 +41,10 @@ export function mountMenu({ categories, dishes }, root = document) {
   const sortedCategories = [...categories].sort((a, b) => a.order - b.order);
   const chefDishes = dishes.filter(dish => dish.chef_choice === true && dish.available && categories.some(category => category.id === dish.category))
     .sort((a, b) => a.order - b.order).slice(0, 3);
-  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const supportsObservers = typeof IntersectionObserver !== 'undefined';
   let filtered = [], cursor = 0;
   const sections = new Map();
 
-  const revealObserver = supportsObservers ? new IntersectionObserver(entries => {
-    for (const entry of entries) {
-      if (reducedMotion.matches || (entry.isIntersecting && entry.intersectionRatio >= 0.12)) entry.target.classList.add('is-visible');
-      else if (!entry.isIntersecting && !entry.target.contains(document.activeElement)) entry.target.classList.remove('is-visible');
-    }
-  }, { threshold: [0, 0.12] }) : null;
-
-  const batchObserver = supportsObservers ? new IntersectionObserver(entries => {
-    if (entries.some(entry => entry.isIntersecting)) appendBatch();
-  }, { rootMargin: '200px' }) : null;
-
   function appendBatch() {
-    batchObserver?.unobserve(sentinel);
     content.setAttribute('aria-busy', 'true');
     const batch = filtered.slice(cursor, cursor + BATCH_SIZE);
     for (const dish of batch) {
@@ -65,26 +52,22 @@ export function mountMenu({ categories, dishes }, root = document) {
       section.wrapper.hidden = false;
       const card = createDishCard(dish);
       section.grid.append(card);
-      if (reducedMotion.matches || !revealObserver) card.classList.add('is-visible');
-      else revealObserver.observe(card);
     }
     cursor += batch.length;
     content.setAttribute('aria-busy', 'false');
     const hasMore = cursor < filtered.length;
     sentinel.hidden = !hasMore; more.hidden = !hasMore;
     progress.textContent = filtered.length ? `Показано ${cursor} из ${filtered.length}` : '';
-    if (hasMore) batchObserver?.observe(sentinel);
   }
 
   function ensureCategory(id) {
     const index = filtered.findIndex(dish => dish.category === id);
     if (index < 0) return;
     while (cursor <= index) appendBatch();
-    sections.get(id).wrapper.scrollIntoView({ behavior: reducedMotion.matches ? 'instant' : 'smooth', block: 'start' });
+    sections.get(id).wrapper.scrollIntoView({ block: 'start' });
   }
 
   function render() {
-    batchObserver?.disconnect(); revealObserver?.disconnect();
     content.replaceChildren(); navigation.replaceChildren(); sections.clear(); cursor = 0;
     const query = normal(search.value);
     if (chefSection) chefSection.hidden = Boolean(query) || !chefDishes.length;
@@ -96,7 +79,9 @@ export function mountMenu({ categories, dishes }, root = document) {
       link.href = `#${category.id}`; link.dataset.category = category.id;
       link.setAttribute('aria-disabled', String(!items.length)); navigation.append(link);
       const wrapper = element('section', 'menu-category'); wrapper.id = category.id; wrapper.hidden = true;
+      wrapper.dataset.reveal = '';
       const heading = element('div', 'category-heading');
+      heading.dataset.reveal = '';
       heading.append(element('h2', '', category.title), element('p', '', category.description), element('span', '', String(items.length).padStart(2, '0')));
       const grid = element('div', 'dish-grid'); wrapper.append(heading, grid); content.append(wrapper);
       sections.set(category.id, { wrapper, grid });
@@ -114,13 +99,6 @@ export function mountMenu({ categories, dishes }, root = document) {
     const id = link.dataset.category;
     history.replaceState(null, '', `#${encodeURIComponent(id)}`); ensureCategory(id);
   }
-  function reduceMotion(event) {
-    revealObserver?.disconnect();
-    content.querySelectorAll('.reveal').forEach(card => {
-      if (event.matches) card.classList.add('is-visible');
-      else revealObserver?.observe(card);
-    });
-  }
   if (chefGrid) {
     chefGrid.replaceChildren();
     for (const dish of chefDishes) {
@@ -134,14 +112,14 @@ export function mountMenu({ categories, dishes }, root = document) {
   }
   search.addEventListener('input', render); navigation.addEventListener('click', navigate);
   chefSection?.addEventListener('click', navigate);
-  more.addEventListener('click', appendBatch); reducedMotion.addEventListener('change', reduceMotion);
+  more.addEventListener('click', appendBatch); sentinel.addEventListener('menu:load-more', appendBatch);
   render();
   try { if (location.hash) ensureCategory(decodeURIComponent(location.hash.slice(1))); } catch { /* Invalid fragments do not break the menu. */ }
   return { destroy() {
-    batchObserver?.disconnect(); revealObserver?.disconnect(); search.removeEventListener('input', render);
+    search.removeEventListener('input', render);
     navigation.removeEventListener('click', navigate); more.removeEventListener('click', appendBatch);
     chefSection?.removeEventListener('click', navigate);
-    reducedMotion.removeEventListener('change', reduceMotion);
+    sentinel.removeEventListener('menu:load-more', appendBatch);
   } };
 }
 

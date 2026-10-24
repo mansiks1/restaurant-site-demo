@@ -10,7 +10,7 @@ export const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'
 export const money = value => `${new Intl.NumberFormat('ru-RU').format(Number(value) || 0)} ₽`;
 export const dateLabel = (value, options = {}) => new Intl.DateTimeFormat('ru-RU', {day:'numeric', month:'long', year:'numeric', timeZone:'Europe/Moscow', ...options}).format(new Date(value));
 export const moscowDay = value => new Intl.DateTimeFormat('en-CA', {timeZone:'Europe/Moscow', year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(value));
-export const picture = (src, alt, cls = '', width = 960, height = 720) => `<figure class="image-frame ${esc(cls)}"><img src="${esc(imageUrl(src))}" alt="${esc(alt)}" width="${width}" height="${height}" loading="lazy" decoding="async"><figcaption class="image-label">${esc(alt)}</figcaption></figure>`;
+export const picture = (src, alt, cls = '', width = 960, height = 720) => `<figure class="image-frame ${esc(cls)}" data-reveal><img src="${esc(imageUrl(src))}" alt="${esc(alt)}" width="${width}" height="${height}" loading="lazy" decoding="async"><figcaption class="image-label">${esc(alt)}</figcaption></figure>`;
 export function imageUrl(path) {
   const clean = String(path || 'assets/img/interior.webp').replace(/^\/+/, '');
   return clean.startsWith('assets/img/') && !clean.includes('..') ? url(clean) : url('assets/img/interior.webp');
@@ -18,7 +18,7 @@ export function imageUrl(path) {
 export function markdown(text) {
   const clean = DOMPurify.sanitize(marked.parse(String(text || ''), {breaks:false}), {USE_PROFILES:{html:true}, FORBID_TAGS:['style','form','iframe'], FORBID_ATTR:['style']});
   const fragment = document.createElement('template'); fragment.innerHTML = clean;
-  fragment.content.querySelectorAll('img').forEach(img => { img.src=imageUrl(img.getAttribute('src')); img.loading='lazy'; img.decoding='async'; img.width=960; img.height=720; if(!img.alt)img.alt='Иллюстрация к материалу'; });
+  fragment.content.querySelectorAll('img').forEach(img => { img.src=imageUrl(img.getAttribute('src')); img.loading='lazy'; img.dataset.reveal=''; img.decoding='async'; img.width=960; img.height=720; if(!img.alt)img.alt='Иллюстрация к материалу'; });
   fragment.content.querySelectorAll('a').forEach(a => {
     const href = a.getAttribute('href') || '';
     if (/^(javascript|data|vbscript):/i.test(href)) a.removeAttribute('href');
